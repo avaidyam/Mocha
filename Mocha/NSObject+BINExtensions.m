@@ -1,66 +1,114 @@
-#import "NSObject+BINExtensions.h"
-#import <objc/objc-class.h>
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
 
-#define SetNSErrorFor(FUNC, ERROR_VAR, FORMAT,...)	\
-	if (ERROR_VAR) {	\
-		NSString *errStr = [NSString stringWithFormat:@"%s: " FORMAT,FUNC,##__VA_ARGS__]; \
-		*ERROR_VAR = [NSError errorWithDomain:@"NSCocoaErrorDomain" \
-										 code:-1	\
-									 userInfo:[NSDictionary dictionaryWithObject:errStr forKey:NSLocalizedDescriptionKey]]; \
-	}
-#define SetNSError(ERROR_VAR, FORMAT,...) SetNSErrorFor(__func__, ERROR_VAR, FORMAT, ##__VA_ARGS__)
+#import "NSObject+BINExtensions.h"
+#import <Foundation/NSString.h>
+#import <Foundation/NSArray.h>
+#import <Foundation/NSDictionary.h>
+#import <Foundation/NSScriptClassDescription.h>
+#import <objc/objc-class.h>
 
 @implementation NSObject (BINExtensions)
 
-+ (BOOL)exchangeInstanceMethod:(SEL)origSel_ withMethod:(SEL)altSel_ error:(NSError**)error_ {
-	Method origMethod = class_getInstanceMethod(self, origSel_);
-	if (!origMethod) {
-		SetNSError(error_, @"original method %@ not found for class %@",
-				   NSStringFromSelector(origSel_), [self className]);
++ (BOOL)exchangeInstanceMethod:(SEL)original withMethod:(SEL)alternate error:(NSError **)error {
+	Method origMethod = class_getInstanceMethod(self, original);
+	if(!origMethod) {
+		if(error) {
+			NSString *errStr = [NSString stringWithFormat:@"%@: original method %@ not found for class %@",
+								NSStringFromSelector(_cmd), NSStringFromSelector(original), self.className];
+			*error = [NSError errorWithDomain:NSCocoaErrorDomain code:-1	
+									 userInfo:@{ NSLocalizedDescriptionKey : errStr }];
+		}
 		return NO;
 	}
 	
-	Method altMethod = class_getInstanceMethod(self, altSel_);
+	Method altMethod = class_getInstanceMethod(self, alternate);
 	if (!altMethod) {
-		SetNSError(error_, @"alternate method %@ not found for class %@",
-				   NSStringFromSelector(altSel_), [self className]);
+		if(error) {
+			NSString *errStr = [NSString stringWithFormat:@"%@: alternate method %@ not found for class %@",
+								NSStringFromSelector(_cmd), NSStringFromSelector(original), self.className];
+			*error = [NSError errorWithDomain:NSCocoaErrorDomain code:-1
+									 userInfo:@{ NSLocalizedDescriptionKey : errStr }];
+		}
 		return NO;
 	}
 	
-	class_addMethod(self, origSel_,
-					class_getMethodImplementation(self, origSel_),
+	class_addMethod(self, original,
+					class_getMethodImplementation(self, original),
 					method_getTypeEncoding(origMethod));
-	class_addMethod(self, altSel_,
-					class_getMethodImplementation(self, altSel_),
+	class_addMethod(self, alternate,
+					class_getMethodImplementation(self, alternate),
 					method_getTypeEncoding(altMethod));
-	method_exchangeImplementations(class_getInstanceMethod(self, origSel_),
-								   class_getInstanceMethod(self, altSel_));
+	method_exchangeImplementations(class_getInstanceMethod(self, original),
+								   class_getInstanceMethod(self, alternate));
 	
 	return YES;
 }
 
-+ (BOOL)exchangeClassMethod:(SEL)origSel_ withClassMethod:(SEL)altSel_ error:(NSError **)error_ {
-	return [object_getClass((id)self) exchangeInstanceMethod:origSel_ withMethod:altSel_ error:error_];
++ (BOOL)exchangeClassMethod:(SEL)original withClassMethod:(SEL)alternate error:(NSError **)error {
+	return [object_getClass((id)self) exchangeInstanceMethod:original withMethod:alternate error:error];
 }
 
-- (void)performSelector:(SEL)selector withObjects:(NSObject *)firstObject, ... {
-#define MAX_MESSAGE_ARGUMENTS (10)
-    typedef NSObject *objectArray[MAX_MESSAGE_ARGUMENTS];
-    objectArray messageArguments = {0};
++ (BOOL)safelyAddInstanceMethod:(SEL)additional replacingMethod:(SEL)replace error:(NSError **)error {
+	if(!class_getInstanceMethod(self, replace)) {
+		Method additionalMethod = class_getInstanceMethod(self, additional);
+		if (!additionalMethod) {
+			if(error) {
+				NSString *errStr = [NSString stringWithFormat:@"%@: additional method %@ not found for class %@",
+									NSStringFromSelector(_cmd), NSStringFromSelector(additional), self.className];
+				*error = [NSError errorWithDomain:NSCocoaErrorDomain code:-1
+										 userInfo:@{ NSLocalizedDescriptionKey : errStr }];
+			}
+			return NO;
+		}
+		
+		class_addMethod(self, replace,
+						class_getMethodImplementation(self, additional),
+						method_getTypeEncoding(additionalMethod));
+	}
+	return YES;
+}
+
++ (void)attemptToSwapInstanceMethod:(SEL)selector withPrefix:(NSString *)prefix {
+	NSString *prefixedSel = NSStringFromSelector(selector);
+	if([prefixedSel hasPrefix:@"init"]) {
+		NSMutableArray *components = [prefixedSel componentsSeparatedByString:@":"].mutableCopy;
+		components[0] = [NSString stringWithFormat:@"%@_%@", components[0], prefix];
+		prefixedSel = [components componentsJoinedByString:@":"];
+	} else prefixedSel = [NSString stringWithFormat:@"%@_%@", prefix, prefixedSel];
 	
-    size_t variadicArgumentIndex = 0;
-    va_list variadicArguments;
-    va_start(variadicArguments, firstObject);
-    for(NSObject *variadicArgument = firstObject; variadicArgument != nil;
-		variadicArgument = va_arg(variadicArguments, NSObject*)) {
-        messageArguments[variadicArgumentIndex++] = variadicArgument;
-    }
-    va_end(variadicArguments);
+	NSError *error = nil;
+	if(![self exchangeInstanceMethod:NSSelectorFromString(prefixedSel) withMethod:selector error:&error])
+		NSLog(@"%@", error);
+}
+
++ (void)attemptToSwapClassMethod:(SEL)selector withPrefix:(NSString *)prefix {
+	[object_getClass((id)self) attemptToSwapInstanceMethod:selector withPrefix:prefix];
+}
+
++ (BOOL)safelyAddClassMethod:(SEL)additional replacingMethod:(SEL)replace error:(NSError **)error {
+	return [object_getClass((id)self) safelyAddInstanceMethod:additional replacingMethod:replace error:error];
+}
+
++ (void)attemptToAddInstanceMethod:(SEL)selector withPrefix:(NSString *)prefix {
+	NSString *prefixedSel = NSStringFromSelector(selector);
+	if([prefixedSel hasPrefix:@"init"]) {
+		NSMutableArray *components = [prefixedSel componentsSeparatedByString:@":"].mutableCopy;
+		components[0] = [NSString stringWithFormat:@"%@_%@", components[0], prefix];
+		prefixedSel = [components componentsJoinedByString:@":"];
+	} else prefixedSel = [NSString stringWithFormat:@"%@_%@", prefix, prefixedSel];
 	
-    objc_msgSend(self, selector, messageArguments[0], messageArguments[1], messageArguments[2], messageArguments[3],
-                 messageArguments[4], messageArguments[5], messageArguments[6], messageArguments[7],
-				 messageArguments[8], messageArguments[9]);
-	
+	NSError *error = nil;
+	if(![self safelyAddInstanceMethod:NSSelectorFromString(prefixedSel) replacingMethod:selector error:&error])
+		NSLog(@"%@", error);
+}
+
++ (void)attemptToAddClassMethod:(SEL)selector withPrefix:(NSString *)prefix {
+	[object_getClass((id)self) attemptToAddInstanceMethod:selector withPrefix:prefix];
 }
 
 @end

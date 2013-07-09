@@ -1,3 +1,10 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import <Foundation/Foundation.h>
 
 static LSSharedFileListRef __NSGlobalLoginItems;
@@ -7,30 +14,30 @@ __attribute__((constructor)) void __NSGlobalLoginItemsInitializer() {
 
 static LSSharedFileListItemRef __NSFindItemWithURLInFileList(NSURL *wantedURL, LSSharedFileListRef fileList) {
 	if(wantedURL == NULL || fileList == NULL)
-        return NULL;
+		return NULL;
 	
 	// Get the URL's file attributes. That includes the NSFileSystemFileNumber.
 	// comparing the file number is better than comparing URLs
 	// because it doesn't have to deal with case sensitivity
 	
 	NSDictionary *wantedAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[(NSURL *)wantedURL path] error:nil];
-    NSArray *listSnapshot = (__bridge NSArray *)(LSSharedFileListCopySnapshot(fileList, NULL));
-    for (id itemObject in listSnapshot) {
+	NSArray *listSnapshot = (__bridge NSArray *)(LSSharedFileListCopySnapshot(fileList, NULL));
+	for (id itemObject in listSnapshot) {
 		
-        LSSharedFileListItemRef item = (__bridge LSSharedFileListItemRef) itemObject;
-        UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
-        CFURLRef currentItemURL = NULL;
-        LSSharedFileListItemResolve(item, resolutionFlags, &currentItemURL, NULL);
+		LSSharedFileListItemRef item = (__bridge LSSharedFileListItemRef) itemObject;
+		UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+		CFURLRef currentItemURL = NULL;
+		LSSharedFileListItemResolve(item, resolutionFlags, &currentItemURL, NULL);
 		
 		NSDictionary *currentAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[(__bridge NSURL *)currentItemURL path] error:nil];
 		if(currentAttributes && [currentAttributes isEqual:wantedAttributes]) {
 			CFRelease(currentItemURL);
-            return item;
-        }
-        if(currentItemURL)
-            CFRelease(currentItemURL);
-    }
-    return NULL;
+			return item;
+		}
+		if(currentItemURL)
+			CFRelease(currentItemURL);
+	}
+	return NULL;
 }
 
 BOOL NSWillLaunchItemAtURLOnLogin(NSURL *itemURL, BOOL *hidden) {
@@ -43,7 +50,7 @@ BOOL NSWillLaunchItemAtURLOnLogin(NSURL *itemURL, BOOL *hidden) {
 }
 
 void NSLaunchItemAtURLOnLogin(NSURL *itemURL, BOOL enabled, BOOL hidden) {
-    LSSharedFileListItemRef existingItem = __NSFindItemWithURLInFileList(itemURL, __NSGlobalLoginItems);
+	LSSharedFileListItemRef existingItem = __NSFindItemWithURLInFileList(itemURL, __NSGlobalLoginItems);
 	if(enabled && (existingItem == NULL)) {
 		if(!hidden) {
 			LSSharedFileListInsertItemURL(__NSGlobalLoginItems, kLSSharedFileListItemBeforeFirst,

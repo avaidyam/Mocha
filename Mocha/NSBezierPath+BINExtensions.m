@@ -1,5 +1,11 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import "NSBezierPath+BINExtensions.h"
-#import <objc/runtime.h>
 
 static void BIN_CGPathCallback(void *info, const CGPathElement *element) {
 	NSBezierPath *path = (__bridge NSBezierPath *)(info);
@@ -32,34 +38,15 @@ static void BIN_CGPathCallback(void *info, const CGPathElement *element) {
 	}
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wincomplete-implementation"
-#pragma clang diagnostic ignored "-Wobjc-property-implementation"
 @implementation NSBezierPath (BINExtensions)
 
-+ (void)load {
-	if(!class_getInstanceMethod(NSBezierPath.class, @selector(CGPath))) {
-		Method m = class_getInstanceMethod(NSBezierPath.class, @selector(BIN_CGPath));
-		class_addMethod(NSColor.class, @selector(CGPath),
-						class_getMethodImplementation(NSBezierPath.class, @selector(BIN_CGPath)),
-						method_getTypeEncoding(m));
-	}
-	
-	if(!class_getInstanceMethod(NSBezierPath.class, @selector(bezierPathWithCGPath:))) {
-		Method m = class_getInstanceMethod(NSBezierPath.class, @selector(BIN_bezierPathWithCGPath:));
-		class_addMethod(NSColor.class, @selector(bezierPathWithCGPath:),
-						class_getMethodImplementation(NSBezierPath.class, @selector(BIN_bezierPathWithCGPath:)),
-						method_getTypeEncoding(m));
-	}
-}
-
-+ (NSBezierPath *)BIN_bezierPathWithCGPath:(CGPathRef)pathRef {
++ (NSBezierPath *)bezierPathWithCGPath:(CGPathRef)pathRef {
 	NSBezierPath *path = [NSBezierPath bezierPath];
 	CGPathApply(pathRef, (__bridge void *)(path), BIN_CGPathCallback);
 	return path;
 }
 
-- (CGPathRef)BIN_CGPath CF_RETURNS_RETAINED {
+- (CGPathRef)CGPath CF_RETURNS_RETAINED {
 	CGPathRef immutablePath = NULL;
 	NSInteger numElements = [self elementCount];
 	
@@ -99,77 +86,5 @@ static void BIN_CGPathCallback(void *info, const CGPathElement *element) {
 	
 	return immutablePath;
 }
-
-- (void)fillWithInnerShadow:(NSShadow *)shadow {
-	NSSize offset = shadow.shadowOffset;
-	NSSize originalOffset = offset;
-	CGFloat radius = shadow.shadowBlurRadius;
-	NSRect bounds = NSInsetRect(self.bounds, -(fabs(offset.width) + radius), -(fabs(offset.height) + radius));
-	offset.height += bounds.size.height;
-	shadow.shadowOffset = offset;
-	
-	NSAffineTransform *transform = [NSAffineTransform transform];
-	if ([[NSGraphicsContext currentContext] isFlipped])
-		[transform translateXBy:0 yBy:bounds.size.height];
-	else
-		[transform translateXBy:0 yBy:-bounds.size.height];
-	
-	NSBezierPath *drawingPath = [NSBezierPath bezierPathWithRect:bounds];
-	[drawingPath setWindingRule:NSEvenOddWindingRule];
-	[drawingPath appendBezierPath:self];
-	[drawingPath transformUsingAffineTransform:transform];
-	
-	[NSGraphicsContext saveGraphicsState];
-	[self addClip];
-	[shadow set];
-	
-	[[NSColor blackColor] set];
-	[drawingPath fill];
-	[NSGraphicsContext restoreGraphicsState];
-	
-	shadow.shadowOffset = originalOffset;
-}
-
-- (void)drawBlurWithColor:(NSColor *)color radius:(CGFloat)radius {
-	NSRect bounds = NSInsetRect(self.bounds, -radius, -radius);
-	NSShadow *shadow = [NSShadow shadowWithRadius:radius offset:NSMakeSize(0, bounds.size.height) color:color];
-	
-	NSBezierPath *path = [self copy];
-	NSAffineTransform *transform = [NSAffineTransform transform];
-	if([[NSGraphicsContext currentContext] isFlipped])
-		[transform translateXBy:0 yBy:bounds.size.height];
-	else
-		[transform translateXBy:0 yBy:-bounds.size.height];
-	[path transformUsingAffineTransform:transform];
-	
-	[NSGraphicsContext saveGraphicsState];
-	[shadow set];
-	[[NSColor blackColor] set];
-	
-	NSRectClip(bounds);
-	[path fill];
-	[NSGraphicsContext restoreGraphicsState];
-}
-
-- (void)strokeInside {
-	[self strokeInsideWithinRect:NSZeroRect];
-}
-
-- (void)strokeInsideWithinRect:(NSRect)clipRect {
-	CGFloat lineWidth = self.lineWidth;
-	
-	[NSGraphicsContext saveGraphicsState];
-	self.lineWidth *= 2.0f;
-	[self setClip];
-	
-	if (clipRect.size.width > 0.0 && clipRect.size.height > 0.0)
-		[NSBezierPath clipRect:clipRect];
-	
-	[self stroke];
-	[NSGraphicsContext restoreGraphicsState];
-	
-	self.lineWidth = lineWidth;
-}
-#pragma clang diagnostic pop
 
 @end

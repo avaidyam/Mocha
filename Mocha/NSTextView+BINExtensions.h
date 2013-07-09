@@ -1,12 +1,20 @@
-#import <AppKit/AppKit.h>
-#import <QuartzCore/QuartzCore.h>
-#import "NSObject+BINExtensions.h"
-#import "NSColor+BINExtensions.h"
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
 
+#import <AppKit/NSTextView.h>
+#import "NSObject+BINExtensions.h"
+
+// Allows NSTextView to draw properly when layer-backed, by forcing pixel
+// alignment, and also enables iOS style flashing cursors and insertion
+// point custom widths.
 @interface NSTextView (BINExtensions)
 
-@property (nonatomic, assign) BOOL slideInsertionPoint;
-@property (nonatomic, assign) BOOL flashInsertionPoint; // FIXME: Doesn't work properly.
+// FIXME: Doesn't work properly.
+@property (nonatomic, assign) BOOL flashInsertionPoint;
 
 @property (nonatomic, assign) CGFloat insertionPointWidth;
 @property (nonatomic, strong) NSColor *insertionPointColor;

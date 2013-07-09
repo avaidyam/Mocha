@@ -1,22 +1,23 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import "NSTabView+BINExtensions.h"
+#import <AppKit/NSAnimationContext.h>
+#import <AppKit/NSGraphicsContext.h>
+#import <AppKit/NSTabViewItem.h>
+#import <AppKit/NSGradient.h>
+#import <AppKit/NSColor.h>
 #import <objc/runtime.h>
 
 @implementation NSTabView (BINExtensions)
 
 + (void)load {
-	NSError *error = nil;
-	if(![NSTabView exchangeInstanceMethod:@selector(selectTabViewItem:)
-							   withMethod:@selector(BIN_selectTabViewItem:)
-									error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSTabView exchangeInstanceMethod:@selector(drawRect:)
-							   withMethod:@selector(BIN_drawRect:)
-									error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
+	[self attemptToSwapInstanceMethod:@selector(selectTabViewItem:) withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(drawRect:) withPrefix:MochaPrefix];
 }
 
 @dynamic animates;
@@ -202,7 +203,7 @@ static const char *applyFadeAnimation_key = "applyFadeAnimation_key";
 								  self.orientation == NSTabViewOrientationRightToLeft);
 	BOOL reversed = (self.orientation == NSTabViewOrientationRightToLeft ||
 					 self.orientation == NSTabViewOrientationBottomToTop);
-    if(![NSEvent isSwipeTrackingFromScrollEventsEnabled] || !self.gestureNavigation)
+	if(![NSEvent isSwipeTrackingFromScrollEventsEnabled] || !self.gestureNavigation)
 		return;
 	if(event.type != NSScrollWheel || event.phase != NSEventPhaseBegan)
 		return;
@@ -215,18 +216,18 @@ static const char *applyFadeAnimation_key = "applyFadeAnimation_key";
 	NSRect hostRect = [self.selectedTabViewItem.view frame];
 	
 	NSInteger currentIndex = [self indexOfTabViewItem:self.selectedTabViewItem] + 1;
-    CGFloat thresholdMin = (reversed ? currentIndex - 1 : self.tabViewItems.count - currentIndex);
-    CGFloat thresholdMax = (reversed ? self.tabViewItems.count - currentIndex : currentIndex - 1);
+	CGFloat thresholdMin = (reversed ? currentIndex - 1 : self.tabViewItems.count - currentIndex);
+	CGFloat thresholdMax = (reversed ? self.tabViewItems.count - currentIndex : currentIndex - 1);
 	//NSLog(@"min %f curr %ld max %f", thresholdMin, currentIndex, thresholdMax);
 	
 	__block NSTabViewItem *tabViewItem = nil;
-    __block BOOL animationCancelled = NO;
+	__block BOOL animationCancelled = NO;
 	__block NSView *addRepresentation = nil;
 	__block NSView *removeRepresentation = nil;
 	
-    [event trackSwipeEventWithOptions:NSEventSwipeTrackingLockDirection | NSEventSwipeTrackingClampGestureAmount
+	[event trackSwipeEventWithOptions:NSEventSwipeTrackingLockDirection | NSEventSwipeTrackingClampGestureAmount
 			 dampenAmountThresholdMin:-thresholdMin max:thresholdMax
-                         usingHandler:^(CGFloat gestureAmount, NSEventPhase phase, BOOL complete, BOOL *stop)
+						 usingHandler:^(CGFloat gestureAmount, NSEventPhase phase, BOOL complete, BOOL *stop)
 	{
 		if(animationCancelled) {
 			*stop = YES;

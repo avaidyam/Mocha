@@ -1,11 +1,11 @@
-#import <AppKit/AppKit.h>
-#import <QuartzCore/QuartzCore.h>
-#define COMMON_DIGEST_FOR_OPENSSL
-#import <CommonCrypto/CommonDigest.h>
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
 
-#import "NSObject+BINExtensions.h"
-#import "CAAnimation+BINExtensions.h"
-#import "NSTextField+BINExtensions.h"
+#import <AppKit/NSSecureTextField.h>
 
 @interface NSSecureTextField (BINExtensions)
 

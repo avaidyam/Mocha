@@ -1,8 +1,11 @@
-#import <AppKit/AppKit.h>
-#import <QuartzCore/QuartzCore.h>
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
 
-// TODO: Add NSAppearance.
-// TODO: Add NSEventRecognizer.
+#import <AppKit/NSView.h>
 
 /*@interface NSView (BINExtensionsLayer)
 
@@ -58,7 +61,7 @@
 
 @interface NSView (BINExtensionsLayout)
 
-- (void)layoutSubviews;
+//- (void)layoutSubviews;
 
 @end
 
@@ -66,11 +69,11 @@
 @interface NSView (BINProperties)
 
 @property (nonatomic, assign) CGPoint center;
-@property (nonatomic, assign) NSInteger tag;
-@property (nonatomic, assign) BOOL needsPanelToBecomeKey;
-@property (nonatomic, assign) BOOL mouseDownCanMoveWindow;
-@property (nonatomic, assign, getter = isOpaque) BOOL opaque;
-@property (nonatomic, assign, getter = isFlipped) BOOL flipped;
+//@property (nonatomic, assign) NSInteger tag;
+//@property (nonatomic, assign) BOOL needsPanelToBecomeKey;
+//@property (nonatomic, assign) BOOL mouseDownCanMoveWindow;
+//@property (nonatomic, assign, getter = isOpaque) BOOL opaque;
+//@property (nonatomic, assign, getter = isFlipped) BOOL flipped;
 
 @end
 

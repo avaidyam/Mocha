@@ -1,3 +1,10 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import "NSUUID+BINExtensions.h"
 #import <objc/runtime.h>
 #include <uuid/uuid.h>
@@ -40,7 +47,7 @@
 
 - (id)initWithUUIDString:(NSString *)string {
 	if((self = [super init]))
-		if(uuid_parse([string UTF8String], _uuid) != 0)
+		if(uuid_parse(string.UTF8String, _uuid) != 0)
 			self = nil;
 	return self;
 }
@@ -52,7 +59,6 @@
 - (NSString *)UUIDString {
 	uuid_string_t string;
 	uuid_unparse_upper(_uuid, string);
-	
 	return [NSString stringWithUTF8String:string];
 }
 

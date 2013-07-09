@@ -1,6 +1,16 @@
-#import <AppKit/AppKit.h>
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
 
-/* DRAWING CONICAL GRADIENTS */
+#import <AppKit/NSGradient.h>
+#import <CoreGraphics/CGContext.h>
+
+// NSGradient extensions to allow the drawing of conical gradients.
+// Not to be confused with radial gradients, a conical gradient
+// is a centrally-"spun" fan of shaded colors.
 @interface NSGradient (BINExtensions)
 
 - (void)drawConicalInRect:(NSRect)rect;
@@ -14,6 +24,6 @@ extern void CGContextApplyNoise(CGContextRef context, CGRect rect, CGFloat opaci
 
 // Draws a conical gradient, a feature that Quartz does not
 // natively support, in a given rectangle, defined by an
-// array of UIColors, and an array of NSNumber locations for
+// array of NSColors, and an array of NSNumber locations for
 // the gradient stops. The array counts must match up.
 extern void CGContextDrawConicalGradient(CGContextRef context, CGRect rect, NSArray *colors, NSArray *locations);

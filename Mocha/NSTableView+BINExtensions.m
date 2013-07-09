@@ -1,45 +1,27 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import "NSTableView+BINExtensions.h"
+#import "NSObject+BINExtensions.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wincomplete-implementation"
 @implementation NSTableView (BINExtensions)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
 + (void)load {
-	NSError *error = nil;
-	if(![NSTableView exchangeInstanceMethod:@selector(setDoubleAction:)
-								 withMethod:@selector(BIN_setDoubleAction:)
-									  error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSTableView exchangeInstanceMethod:@selector(setTarget:)
-								 withMethod:@selector(BIN_setTarget:)
-									  error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSTableView exchangeInstanceMethod:@selector(initWithFrame:)
-								 withMethod:@selector(initWithFrame_BIN:)
-									  error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSTableView exchangeInstanceMethod:@selector(initWithCoder:)
-								 withMethod:@selector(initWithCoder_BIN:)
-									  error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSTableView exchangeInstanceMethod:@selector(awakeFromNib)
-								 withMethod:@selector(BIN_awakeFromNib)
-									  error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
+	[self attemptToSwapInstanceMethod:@selector(setDoubleAction:) withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(setTarget:) withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(initWithFrame:) withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(initWithCoder:) withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(awakeFromNib) withPrefix:MochaPrefix];
 }
+#pragma clang diagnostic pop
 
 - (id)initWithFrame_BIN:(NSRect)frameRect {
 	if((self = [self initWithFrame_BIN:frameRect])) {

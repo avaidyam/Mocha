@@ -1,5 +1,12 @@
-#import <AppKit/AppKit.h>
-#import <QuartzCore/QuartzCore.h>
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
+#import <AppKit/NSTabView.h>
+#import <QuartzCore/CAMediaTimingFunction.h>
 #import "NSObject+BINExtensions.h"
 #import "NSView+BINExtensions.h"
 

@@ -1,5 +1,13 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import "NSImage+BINExtensions.h"
 #import "NSColor+BINExtensions.h"
+#import <AppKit/NSGraphicsContext.h>
 #import <objc/runtime.h>
 
 @implementation NSValue (BINEdgeInsetsExtensions)
@@ -31,33 +39,14 @@ static const char *capInsets_key = "capInsets_key";
 }
 
 + (void)load {
-	if(!class_getInstanceMethod(NSImage.class, @selector(imageWithSize:flipped:drawingHandler:))) {
-		Method m = class_getInstanceMethod(NSImage.class, @selector(BIN_imageWithSize:flipped:drawingHandler:));
-		class_addMethod(NSImage.class, @selector(imageWithSize:flipped:drawingHandler:),
-						class_getMethodImplementation(NSImage.class, @selector(BIN_imageWithSize:flipped:drawingHandler:)),
-						method_getTypeEncoding(m));
-	}
-	
-	if(!class_getInstanceMethod(NSImage.class, @selector(drawInRect:))) {
-		Method m = class_getInstanceMethod(NSImage.class, @selector(BIN_drawInRect:));
-		class_addMethod(NSImage.class, @selector(drawInRect:),
-						class_getMethodImplementation(NSImage.class, @selector(BIN_drawInRect:)),
-						method_getTypeEncoding(m));
-	}
-	
-	NSError *error = nil;
-	if(![NSImage exchangeInstanceMethod:@selector(drawInRect:fromRect:operation:fraction:respectFlipped:hints:)
-							 withMethod:@selector(BIN_drawInRect:fromRect:operation:fraction:respectFlipped:hints:)
-								  error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSImage exchangeInstanceMethod:@selector(isEqual:)
-							 withMethod:@selector(BIN_isEqual:)
-								  error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
+	[self attemptToSwapInstanceMethod:@selector(drawInRect:fromRect:operation:fraction:respectFlipped:hints:)
+						   withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(isEqual:)
+						   withPrefix:MochaPrefix];
+	[self attemptToAddInstanceMethod:@selector(drawInRect:)
+						  withPrefix:MochaPrefix];
+	[self attemptToAddClassMethod:@selector(imageWithSize:flipped:drawingHandler:)
+					   withPrefix:MochaPrefix];
 }
 
 + (NSImage *)imageWithCGImage:(CGImageRef)cgImage {
@@ -79,7 +68,8 @@ static const char *capInsets_key = "capInsets_key";
 }
 
 - (void)BIN_drawInRect:(CGRect)rect {
-	[self drawInRect:rect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1 respectFlipped:YES hints:nil];
+	[self drawInRect:rect fromRect:NSZeroRect operation:NSCompositeSourceOver
+			fraction:1 respectFlipped:YES hints:nil];
 }
 
 + (instancetype)BIN_imageWithSize:(NSSize)size flipped:(BOOL)flip drawingHandler:(BOOL (^)(NSRect dstRect))handler {
@@ -88,36 +78,32 @@ static const char *capInsets_key = "capInsets_key";
 	return image;
 }
 
-- (void)BIN_drawInRect:(NSRect)dstRect fromRect:(NSRect)srcRect operation:(NSCompositingOperation)op fraction:(CGFloat)alpha
-		respectFlipped:(BOOL)respectFlipped hints:(NSDictionary *)hints {
-	if(self.capInsets.top == 0 && self.capInsets.bottom == 0 &&
-	   self.capInsets.left == 0 && self.capInsets.right == 0)
+#warning "This method does not function properly."
+- (void)BIN_drawInRect:(NSRect)dstRect fromRect:(NSRect)srcRect operation:(NSCompositingOperation)op
+			  fraction:(CGFloat)alpha respectFlipped:(BOOL)respectFlipped hints:(NSDictionary *)hints {
+	
+	//if(NSEdgeInsetsEqualToEdgeInsets(self.capInsets, NSEdgeInsetsZero))
 		return [self BIN_drawInRect:dstRect fromRect:srcRect operation:op fraction:alpha
 					 respectFlipped:respectFlipped hints:hints];
 	
-	if(NSIsEmptyRect(dstRect)) {
-		CGContextRef context = NSGraphicsContext.currentContext.graphicsPort;
-		dstRect = CGContextGetClipBoundingBox(context);
-	}
+	if(NSIsEmptyRect(dstRect))
+		dstRect = CGContextGetClipBoundingBox(NSGraphicsContext.currentContext.graphicsPort);
 	CGImageRef image = [self CGImageForProposedRect:&dstRect context:NSGraphicsContext.currentContext hints:hints];
 	NSAssert(image != NULL, @"Could not get CGImage of %@ for resizing", self);
 	
-	// Calculate scale factors from the pixel-independent representation to the
-	// specific one we're using for this context.
 	CGFloat widthScale = CGImageGetWidth(image) / self.size.width;
 	CGFloat heightScale = CGImageGetHeight(image) / self.size.height;
 	
 	NSEdgeInsets insets = self.capInsets;
-	if(CGRectIsEmpty(srcRect)) {
-		// Match the image creation that occurs in the 'else' clause.
+	if(CGRectIsEmpty(srcRect))
 		CGImageRetain(image);
-	} else {
-		CGRect scaledRect = CGRectMake(srcRect.origin.x * widthScale, srcRect.origin.y * heightScale, srcRect.size.width * widthScale, srcRect.size.height * heightScale);
+	else {
+		CGRect scaledRect = CGRectMake(srcRect.origin.x * widthScale, srcRect.origin.y * heightScale,
+									   srcRect.size.width * widthScale, srcRect.size.height * heightScale);
 		image = CGImageCreateWithImageInRect(image, scaledRect);
 		if(image == NULL)
 			return;
 		
-		// Reduce insets to account for taking only part of the original image.
 		insets.left = fmax(0, insets.left - CGRectGetMinX(srcRect));
 		insets.bottom = fmax(0, insets.bottom - CGRectGetMinY(srcRect));
 		
@@ -131,87 +117,64 @@ static const char *capInsets_key = "capInsets_key";
 	NSImage *topLeft = nil, *topEdge = nil, *topRight = nil;
 	NSImage *leftEdge = nil, *center = nil, *rightEdge = nil;
 	NSImage *bottomLeft = nil, *bottomEdge = nil, *bottomRight = nil;
-	
 	CGFloat verticalEdgeLength = fmax(0, self.size.height - insets.top - insets.bottom);
 	CGFloat horizontalEdgeLength = fmax(0, self.size.width - insets.left - insets.right);
 	
-	NSImage *(^imageWithRect)(CGRect) = ^ id (CGRect rect) {
-		CGRect scaledRect = CGRectMake(rect.origin.x * widthScale, rect.origin.y * heightScale, rect.size.width * widthScale, rect.size.height * heightScale);
+	NSImage *(^imageWithRect)(CGRect) = ^NSImage * (CGRect rect) {
+		CGRect scaledRect = NSMakeRect(rect.origin.x * widthScale, rect.origin.y * heightScale,
+									   rect.size.width * widthScale, rect.size.height * heightScale);
 		CGImageRef part = CGImageCreateWithImageInRect(image, scaledRect);
-		if (part == NULL) return nil;
+		if (part == NULL)
+			return nil;
 		
 		NSImage *image = [[NSImage alloc] initWithCGImage:part size:rect.size];
 		CGImageRelease(part);
-		
 		return image;
 	};
 	
-	if (verticalEdgeLength > 0) {
-		if (insets.left > 0) {
-			CGRect partRect = CGRectMake(0, insets.bottom, insets.left, verticalEdgeLength);
-			leftEdge = imageWithRect(partRect);
-		}
-		
-		if (insets.right > 0) {
-			CGRect partRect = CGRectMake(self.size.width - insets.right, insets.bottom, insets.right, verticalEdgeLength);
-			rightEdge = imageWithRect(partRect);
-		}
+	if(verticalEdgeLength > 0) {
+		if(insets.left > 0)
+			leftEdge = imageWithRect(NSMakeRect(0, insets.bottom, insets.left, verticalEdgeLength));
+		if(insets.right > 0)
+			rightEdge = imageWithRect(NSMakeRect(self.size.width - insets.right, insets.bottom,
+												 insets.right, verticalEdgeLength));
 	}
 	
-	if (horizontalEdgeLength > 0) {
-		if (insets.bottom > 0) {
-			CGRect partRect = CGRectMake(insets.left, 0, horizontalEdgeLength, insets.bottom);
-			bottomEdge = imageWithRect(partRect);
-		}
-		
-		if (insets.top > 0) {
-			CGRect partRect = CGRectMake(insets.left, self.size.height - insets.top, horizontalEdgeLength, insets.top);
-			topEdge = imageWithRect(partRect);
-		}
+	if(horizontalEdgeLength > 0) {
+		if(insets.bottom > 0)
+			bottomEdge = imageWithRect(NSMakeRect(insets.left, 0, horizontalEdgeLength, insets.bottom));
+		if(insets.top > 0)
+			topEdge = imageWithRect(NSMakeRect(insets.left, self.size.height - insets.top,
+											   horizontalEdgeLength, insets.top));
 	}
 	
-	if (insets.left > 0 && insets.top > 0) {
-		CGRect partRect = CGRectMake(0, self.size.height - insets.top, insets.left, insets.top);
-		topLeft = imageWithRect(partRect);
-	}
+	if(insets.left > 0 && insets.top > 0)
+		topLeft = imageWithRect(NSMakeRect(0, self.size.height - insets.top, insets.left, insets.top));
+	if(insets.left > 0 && insets.bottom > 0)
+		bottomLeft = imageWithRect(NSMakeRect(0, 0, insets.left, insets.bottom));
+	if(insets.right > 0 && insets.top > 0)
+		topRight = imageWithRect(NSMakeRect(self.size.width - insets.right, self.size.height - insets.top,
+											insets.right, insets.top));
+	if(insets.right > 0 && insets.bottom > 0)
+		bottomRight = imageWithRect(NSMakeRect(self.size.width - insets.right, 0,
+											   insets.right, insets.bottom));
 	
-	if (insets.left > 0 && insets.bottom > 0) {
-		CGRect partRect = CGRectMake(0, 0, insets.left, insets.bottom);
-		bottomLeft = imageWithRect(partRect);
-	}
-	
-	if (insets.right > 0 && insets.top > 0) {
-		CGRect partRect = CGRectMake(self.size.width - insets.right, self.size.height - insets.top, insets.right, insets.top);
-		topRight = imageWithRect(partRect);
-	}
-	
-	if (insets.right > 0 && insets.bottom > 0) {
-		CGRect partRect = CGRectMake(self.size.width - insets.right, 0, insets.right, insets.bottom);
-		bottomRight = imageWithRect(partRect);
-	}
-	
-	CGRect centerRect = CGRectMake(insets.left, insets.bottom, horizontalEdgeLength, verticalEdgeLength);
-	if (centerRect.size.width > 0 && centerRect.size.height > 0) {
+	CGRect centerRect = NSMakeRect(insets.left, insets.bottom, horizontalEdgeLength, verticalEdgeLength);
+	if(centerRect.size.width > 0 && centerRect.size.height > 0)
 		center = imageWithRect(centerRect);
-	}
-	
 	CGImageRelease(image);
 	
 	BOOL flipped = NO;
-	if (respectFlipped) {
+	if(respectFlipped)
 		flipped = [NSGraphicsContext.currentContext isFlipped];
-	}
 	
-	if (topLeft != nil || bottomRight != nil) {
-		NSDrawNinePartImage(dstRect, bottomLeft, bottomEdge, bottomRight, leftEdge, center, rightEdge, topLeft, topEdge, topRight, op, alpha, flipped);
-	} else if (leftEdge != nil) {
-		// Horizontal three-part image.
+	if(topLeft != nil || bottomRight != nil)
+		NSDrawNinePartImage(dstRect, bottomLeft, bottomEdge, bottomRight, leftEdge, center,
+							rightEdge, topLeft, topEdge, topRight, op, alpha, flipped);
+	else if (leftEdge != nil)
 		NSDrawThreePartImage(dstRect, leftEdge, center, rightEdge, NO, op, alpha, flipped);
-	} else {
-		// Vertical three-part image.
-		NSDrawThreePartImage(dstRect, (flipped ? bottomEdge : topEdge), center, (flipped ? topEdge : bottomEdge), YES, op, alpha, flipped);
-	}
-	return;
+	else NSDrawThreePartImage(dstRect, (flipped ? bottomEdge : topEdge), center,
+							  (flipped ? topEdge : bottomEdge), YES, op, alpha, flipped);
 }
 
 - (BOOL)BIN_isEqual:(NSImage *)image {
@@ -226,33 +189,15 @@ static const char *capInsets_key = "capInsets_key";
 
 static const char *drawingHandler_key = "drawingHandler_key";
 static const char *flipped_key = "flipped_key";
-- (BOOL (^)(NSRect dstRect))BIN_drawingHandler {
-	return objc_getAssociatedObject(self, drawingHandler_key);
-}
 
 + (void)load {
-	NSError *error = nil;
-	if(![NSCustomImageRep exchangeInstanceMethod:@selector(draw)
-									  withMethod:@selector(BIN_draw)
-										   error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	if(!class_getInstanceMethod(NSImage.class, @selector(drawingHandler))) {
-		Method m = class_getInstanceMethod(NSImage.class, @selector(BIN_drawingHandler));
-		class_addMethod(NSImage.class, @selector(drawingHandler),
-						class_getMethodImplementation(NSImage.class, @selector(BIN_drawingHandler)),
-						method_getTypeEncoding(m));
-	}
-	
-	if(!class_getInstanceMethod(NSImage.class, @selector(initWithSize:flipped:drawingHandler:))) {
-		Method m = class_getInstanceMethod(NSImage.class, @selector(initWithSize_BIN:flipped:drawingHandler:));
-		class_addMethod(NSImage.class, @selector(initWithSize:flipped:drawingHandler:),
-						class_getMethodImplementation(NSImage.class, @selector(initWithSize_BIN:flipped:drawingHandler:)),
-						method_getTypeEncoding(m));
-	}
+	[self attemptToSwapInstanceMethod:@selector(draw)
+						   withPrefix:MochaPrefix];
+	[self attemptToAddInstanceMethod:@selector(drawingHandler)
+						  withPrefix:MochaPrefix];
+	[self attemptToAddInstanceMethod:@selector(initWithSize:flipped:drawingHandler:)
+						  withPrefix:MochaPrefix];
 }
-
 
 - (id)initWithSize_BIN:(NSSize)size flipped:(BOOL)flip drawingHandler:(BOOL (^)(NSRect dstRect))handle {
 	if((self = [super init])) {
@@ -263,18 +208,22 @@ static const char *flipped_key = "flipped_key";
 	return self;
 }
 
+- (BOOL (^)(NSRect dstRect))BIN_drawingHandler {
+	return objc_getAssociatedObject(self, drawingHandler_key);
+}
+
 - (BOOL)BIN_draw {
-    if(self.drawingHandler != nil) {
+	if(self.drawingHandler != nil) {
 		BOOL flip = [objc_getAssociatedObject(self, flipped_key) boolValue];
 		NSGraphicsContext *old = [NSGraphicsContext currentContext];
 		
 		NSGraphicsContext *ctx = [NSGraphicsContext graphicsContextWithGraphicsPort:old.graphicsPort flipped:flip];
 		[NSGraphicsContext setCurrentContext:ctx];
-        self.drawingHandler((NSRect){NSZeroPoint, self.size});
+		self.drawingHandler((NSRect){NSZeroPoint, self.size});
 		[NSGraphicsContext setCurrentContext:old];
 		
-        return YES;
-    } else return [self BIN_draw];
+		return YES;
+	} else return [self BIN_draw];
 }
 
 @end

@@ -1,6 +1,18 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import "NSView+BINExtensions.h"
 #import "NSColor+BINExtensions.h"
 #import "NSAffineTransform+BINExtensions.h"
+#import <QuartzCore/QuartzCore.h>
+#import <AppKit/NSAnimationContext.h>
+#import <AppKit/NSScrollView.h>
+#import <AppKit/NSClipView.h>
+#import <AppKit/NSImage.h>
 #import <objc/runtime.h>
 
 @interface NSView (BINExtensionsPrivate)
@@ -12,6 +24,7 @@
 @implementation NSView (BINExtensionsPrivate)
 
 @dynamic layerFlags;
+
 static const char *layerFlags_key = "layerFlags_key";
 - (NSMutableDictionary *)layerFlags {
 	NSMutableDictionary *dict = objc_getAssociatedObject(self, layerFlags_key);
@@ -33,8 +46,10 @@ static IMP NSViewDrawRectIMP;
 	return [self instanceMethodForSelector:@selector(drawRect:)] != NSViewDrawRectIMP;
 }
 
-- (void)setKeyEquivalent:(NSString *)equiv {
-	// Unimplemented. Fixes a few AppKit issues.
+// Fix a few odd AppKit exception-raising bugs.
+- (void)setKeyEquivalent:(NSString *)e {
+	NSLog(@"-setKeyEquivalent: was invalidly invoked on a class that does not implement \
+		  this method. This message is a courtesy; please determine the cause and fix.");
 }
 
 - (NSString *)description {
@@ -63,7 +78,7 @@ static IMP NSViewDrawRectIMP;
 }
 
 - (void)setFlipped:(BOOL)value {
-	if(value == self.flipped)
+	if(value == self.isFlipped)
 		return;
 	self.layerFlags[@"flipped"] = @(value);
 	self.needsDisplay = YES;
@@ -82,7 +97,7 @@ static IMP NSViewDrawRectIMP;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
 
-- (NSInteger)tag {
+/*- (NSInteger)tag {
 	return [self.layerFlags[@"tag"] integerValue];
 }
 
@@ -98,7 +113,7 @@ static IMP NSViewDrawRectIMP;
 	return [self.layerFlags[@"opaque"] boolValue];
 }
 
-/*- (BOOL)isFlipped {
+- (BOOL)isFlipped {
 	return [self.layerFlags[@"flipped"] boolValue];
 }//*/
 
@@ -108,7 +123,7 @@ static IMP NSViewDrawRectIMP;
 
 @implementation NSView (BINExtensionsLayout)
 
-+ (void)load {
+/*+ (void)load {
 	NSError *error = nil;
 	if(![NSView exchangeInstanceMethod:@selector(layout)
 							withMethod:@selector(BIN_layout)
@@ -129,7 +144,7 @@ static IMP NSViewDrawRectIMP;
 
 - (void)layoutSubviews {
 	// Unimplemented for subclassing.
-}
+}//*/
 
 @end
 
@@ -300,7 +315,6 @@ static IMP NSViewDrawRectIMP;
 	return repView;
 }
 
-
 - (void)scrollPoint:(NSPoint)point animated:(BOOL)animated {
 	[self scrollPoint:point animated:animated completionHandler:nil];
 }
@@ -310,13 +324,13 @@ static IMP NSViewDrawRectIMP;
 	if(!animated) return [self scrollPoint:point];
 	
 	NSClipView *clipView = self.enclosingScrollView.contentView;
-    NSPoint constrainedPoint = [clipView constrainScrollPoint:point];
+	NSPoint constrainedPoint = [clipView constrainScrollPoint:point];
 	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
 		context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 		
 		clipView.animator.boundsOrigin = constrainedPoint;
 	} completionHandler:handler];
-    [self.enclosingScrollView reflectScrolledClipView:clipView];
+	[self.enclosingScrollView reflectScrolledClipView:clipView];
 	
 }
 

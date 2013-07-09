@@ -1,4 +1,14 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import "NSAlert+BINExtensions.h"
+#import <AppKit/NSViewController.h>
+#import <AppKit/NSPopover.h>
+#import <AppKit/NSButton.h>
 #import <objc/runtime.h>
 
 @interface BINSheetRequest : NSObject
@@ -30,21 +40,17 @@
 
 @implementation NSAlert (BINExtensions)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
 + (void)load {
-	NSError *error = nil;
-	if(![NSAlert exchangeInstanceMethod:@selector(buttonPressed:)
-							 withMethod:@selector(BIN_buttonPressed:)
-								  error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSAlert exchangeInstanceMethod:@selector(layout)
-							 withMethod:@selector(BIN_layout)
-								  error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
+	[self attemptToSwapInstanceMethod:@selector(buttonPressed:)
+						   withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(layout)
+						   withPrefix:MochaPrefix];
+	[self attemptToAddInstanceMethod:@selector(beginSheetModalForWindow:completionHandler:)
+						  withPrefix:MochaPrefix];
 }
+#pragma clang diagnostic pop
 
 - (BOOL)displayAnchoredToView:(NSView *)anchorView
 					   onEdge:(NSRectEdge)anchorEdge
@@ -63,15 +69,15 @@
 	observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSPopoverDidCloseNotification
 																 object:self.popover queue:nil
 															 usingBlock:^(NSNotification *note) {
-																 if(self.completionHandler != nil)
-																	 self.completionHandler(self.completionReturn);
-																 self.completionHandler = nil;
-																 self.completionReturn = NSNotFound;
-																 self.popover.contentViewController = nil;
-																 self.popover = nil;
-																 
-																 [[NSNotificationCenter defaultCenter] removeObserver:observer];
-															 }];
+					if(self.completionHandler != nil)
+						self.completionHandler(self.completionReturn);
+					self.completionHandler = nil;
+					self.completionReturn = NSNotFound;
+					self.popover.contentViewController = nil;
+					self.popover = nil;
+					
+					[[NSNotificationCenter defaultCenter] removeObserver:observer];
+				}];
 	
 	[self layout];
 	[self.popover showRelativeToRect:anchorView.bounds ofView:anchorView preferredEdge:anchorEdge];
@@ -111,6 +117,7 @@
 		view.autoresizingMask = [masks[@([contentView.subviews indexOfObject:view])] unsignedIntegerValue];
 		//if([view isKindOfClass:NSButton.class] && [(id)view bezelStyle] == NSRoundedBezelStyle)
 		//	[(id)view setBezelStyle:NSTexturedRoundedBezelStyle];
+		[view setNeedsDisplay:YES];
 	}
 }
 
@@ -137,6 +144,21 @@
 
 @implementation NSWindow (BINSheetExtensions)
 
++ (void)load {
+	[self attemptToAddInstanceMethod:@selector(sheets)
+						  withPrefix:MochaPrefix];
+	[self attemptToAddInstanceMethod:@selector(sheetParent)
+						  withPrefix:MochaPrefix];
+	[self attemptToAddInstanceMethod:@selector(beginSheet:completionHandler:)
+						  withPrefix:MochaPrefix];
+	[self attemptToAddInstanceMethod:@selector(beginCriticalSheet:completionHandler:)
+						  withPrefix:MochaPrefix];
+	[self attemptToAddInstanceMethod:@selector(endSheet:)
+						  withPrefix:MochaPrefix];
+	[self attemptToAddInstanceMethod:@selector(endSheet:returnCode:)
+						  withPrefix:MochaPrefix];
+}
+
 - (NSArray *)BIN_sheets {
 	NSMutableArray *sheets = @[].mutableCopy;
 	for(BINSheetRequest *req in self.sheetQueue)
@@ -149,14 +171,14 @@
 	if(!self.isSheet)
 		return sheetParent;
 	
-    for(NSWindow *window in [NSApp windows]) {
+	for(NSWindow *window in [NSApp windows]) {
 		if([self isEqual:window])
 			continue;
 		if([self isEqual:window.attachedSheet])
 			return window;
 	}
 	
-    return sheetParent;
+	return sheetParent;
 }
 
 - (void)BIN_beginSheet:(NSWindow *)sheetWindow completionHandler:(void (^)(NSModalResponse returnCode))handler {
@@ -194,11 +216,12 @@
 		self.sheetQueue = @[].mutableCopy;
 	
 	// Note: in OS X 10.9, this method calls the NSWindow method of the same name.
+	// In other words, on 10.9, it becomes a cyclic dependency.
 	[NSApp endSheet:sheetWindow returnCode:returnCode];
 	
 	// Remove the current sheet.
 	BINSheetRequest *currentSheet = nil;
-    for (BINSheetRequest *request in self.sheetQueue) {
+	for (BINSheetRequest *request in self.sheetQueue) {
 		if([request.sheet isEqual:sheetWindow]) {
 			currentSheet = request;
 			break;
@@ -208,12 +231,12 @@
 	
 	// Begin the next sheet.
 	BINSheetRequest *nextSheet = nil;
-    for (BINSheetRequest *request in self.sheetQueue) {
-        if([request.window isEqual:self]) {
-            nextSheet = request;
-            break;
-        }
-    }
+	for (BINSheetRequest *request in self.sheetQueue) {
+		if([request.window isEqual:self]) {
+			nextSheet = request;
+			break;
+		}
+	}
 	[nextSheet beginSheet];
 }
 

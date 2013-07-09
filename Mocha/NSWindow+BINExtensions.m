@@ -1,22 +1,19 @@
 /*
- Copyright (c) 2013, Jonathan Willing. All rights reserved.
- Licensed under the MIT license <http://opensource.org/licenses/MIT>
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- documentation files (the "Software"), to deal in the Software without restriction, including without limitation
- the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
- to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
- TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- IN THE SOFTWARE.
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
  */
 
 #import "NSWindow+BINExtensions.h"
+#import <QuartzCore/QuartzCore.h>
+#import <AppKit/NSAnimationContext.h>
+#import <AppKit/NSGraphicsContext.h>
+#import <AppKit/NSColorSpace.h>
+#import <AppKit/NSScreen.h>
+#import <AppKit/NSImage.h>
+#import <AppKit/NSColor.h>
+#import <AppKit/NSView.h>
 #import <objc/runtime.h>
 
 static NSUInteger BINAnimatableWindowOpenTransactions = 0;
@@ -179,7 +176,7 @@ static const CGFloat BINAnimatableWindowShadowTopOffset = 14.f;
 		// all the connected screens.
 		CGRect allWindowsFrame = CGRectZero;
 		for(NSScreen *screen in [NSScreen screens])
-            allWindowsFrame = NSUnionRect(allWindowsFrame, screen.frame);
+			allWindowsFrame = NSUnionRect(allWindowsFrame, screen.frame);
 		
 		// Position our window to the very right-most corner out
 		// of visible range, plus padding for the shadow.
@@ -223,7 +220,7 @@ static const CGFloat BINAnimatableWindowShadowTopOffset = 14.f;
 	CGSize imageSize = CGSizeMake(CGImageGetWidth(imageRef), CGImageGetHeight(imageRef));
 	CGContextRef context = CGBitmapContextCreate(NULL, imageSize.width, imageSize.height, 8, 0,
 												 [[NSColorSpace deviceRGBColorSpace] CGColorSpace], kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedFirst);
-    
+	
 	[NSGraphicsContext saveGraphicsState];
 	[NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:context flipped:NO]];
 	NSImage *oldImage = [[NSImage alloc] initWithCGImage:imageRef size:CGSizeZero];
@@ -262,7 +259,7 @@ static CVReturn BINWindowAnimationLayerTimer(CVDisplayLinkRef displayLink, const
 	self.windowRepresentationLayer.contents = [self imageRepresentationOffscreen:NO];
 	[CATransaction commit];
 	
-    return kCVReturnSuccess;
+	return kCVReturnSuccess;
 }
 
 - (void)startLivePreviewTimer {
@@ -278,28 +275,28 @@ static CVReturn BINWindowAnimationLayerTimer(CVDisplayLinkRef displayLink, const
 
 - (void)stopLivePreviewTimer {
 	CVDisplayLinkRef link = self.livePreviewTimer;
-    if(link != nil && CVDisplayLinkIsRunning(link)) {
-        CVDisplayLinkStop(link);
+	if(link != nil && CVDisplayLinkIsRunning(link)) {
+		CVDisplayLinkStop(link);
 		CVDisplayLinkRelease(link);
-        self.livePreviewTimer = nil;
-    }
+		self.livePreviewTimer = nil;
+	}
 }
 
 #pragma mark -  Method Overrides
 
 + (void)load {
-    Method originalMethod = class_getInstanceMethod(self, @selector(constrainFrameRect:toScreen:));
-    Method overrideMethod = class_getInstanceMethod(self, @selector(BIN_constrainFrameRect:toScreen:));
+	Method originalMethod = class_getInstanceMethod(self, @selector(constrainFrameRect:toScreen:));
+	Method overrideMethod = class_getInstanceMethod(self, @selector(BIN_constrainFrameRect:toScreen:));
 	
-    if (class_addMethod(self, @selector(constrainFrameRect:toScreen:),
+	if (class_addMethod(self, @selector(constrainFrameRect:toScreen:),
 						method_getImplementation(overrideMethod),
 						method_getTypeEncoding(overrideMethod))) {
 		class_replaceMethod(self, @selector(BIN_constrainFrameRect:toScreen:),
 							method_getImplementation(originalMethod),
 							method_getTypeEncoding(originalMethod));
-    } else {
+	} else {
 		method_exchangeImplementations(originalMethod, overrideMethod);
-    }
+	}
 }
 
 - (NSRect)BIN_constrainFrameRect:(NSRect)frameRect toScreen:(NSScreen *)screen {

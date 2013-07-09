@@ -1,4 +1,15 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import "NSTextView+BINExtensions.h"
+#import <AppKit/NSGraphicsContext.h>
+#import <AppKit/NSAnimationContext.h>
+#import <QuartzCore/QuartzCore.h>
+#import "NSColor+BINExtensions.h"
 #import <objc/runtime.h>
 
 #define BINCursorColor [NSColor colorWithDeviceRed:0.125 green:0.627 blue:0.918 alpha:1.000]
@@ -7,7 +18,6 @@
 
 @property (nonatomic, strong) NSView *caret;
 
-@property (nonatomic, assign) BOOL slideInsertionPoint;
 @property (nonatomic, assign) BOOL flashInsertionPoint;
 
 @property (nonatomic, assign) NSRange previousCaretRange;
@@ -35,15 +45,6 @@ static const char *previousCaretRange_key = "previousCaretRange_key";
 	objc_setAssociatedObject(self, previousCaretRange_key, [NSValue valueWithRange:previousCaretRange], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-@dynamic slideInsertionPoint;
-static const char *slideInsertionPoint_key = "slideInsertionPoint_key";
-- (BOOL)slideInsertionPoint {
-	return [objc_getAssociatedObject(self, slideInsertionPoint_key) boolValue];
-}
-- (void)setSlideInsertionPoint:(BOOL)slideInsertionPoint {
-	objc_setAssociatedObject(self, slideInsertionPoint_key, @(slideInsertionPoint), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
 @dynamic flashInsertionPoint;
 static const char *flashInsertionPoint_key = "flashInsertionPoint_key";
 - (BOOL)flashInsertionPoint {
@@ -66,53 +67,34 @@ static const char *insertionPointWidth_key = "insertionPointWidth_key";
 
 @implementation NSTextView (BINExtensions)
 
+@dynamic flashInsertionPoint;
 @dynamic insertionPointWidth;
 @dynamic insertionPointColor;
 
-@dynamic slideInsertionPoint;
-@dynamic flashInsertionPoint;
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
 + (void)load {
-	NSError *error = nil;
-#if defined(__MAC_10_8)
-	if(![NSTextView exchangeInstanceMethod:@selector(drawInsertionPointInRect:color:turnedOn:)
-								withMethod:@selector(BIN_drawInsertionPointInRect:color:turnedOn:)
-									 error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
+	[self attemptToSwapInstanceMethod:@selector(drawRect:)
+						   withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(initWithFrame:)
+						   withPrefix:MochaPrefix];
 	
-	error = nil;
-	if(![NSTextView exchangeInstanceMethod:@selector(_drawInsertionPointInRect:color:)
-								withMethod:@selector(BIN__drawInsertionPointInRect:color:)
-									 error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-#endif
-	
-	error = nil;
-	if(![NSTextView exchangeInstanceMethod:@selector(drawRect:)
-								withMethod:@selector(BIN_drawRect:)
-									 error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSTextView exchangeInstanceMethod:@selector(initWithFrame:)
-								withMethod:@selector(initWithFrame_BIN:)
-									 error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
+	if(MochaPlatform10_8) {
+		[self attemptToSwapInstanceMethod:@selector(drawInsertionPointInRect:color:turnedOn:)
+							   withPrefix:MochaPrefix];
+		[self attemptToSwapInstanceMethod:@selector(_drawInsertionPointInRect:color:)
+							   withPrefix:MochaPrefix];
 	}
 }
+#pragma clang diagnostic pop
 
 - (id)initWithFrame_BIN:(NSRect)frame {
-    if((self = [self initWithFrame_BIN:frame])) {
-        self.insertionPointWidth = 2.0f;
+	if((self = [self initWithFrame_BIN:frame])) {
+		self.insertionPointWidth = 2.0f;
 		self.insertionPointColor = BINCursorColor;
-    }
-    return self;
+	}
+	return self;
 }
-
-#pragma mark - Antialiasing Fixes
 
 - (void)BIN_drawRect:(NSRect)dirtyRect {
 	if(self.opaqueAncestor == nil) {
@@ -131,8 +113,6 @@ static const char *insertionPointWidth_key = "insertionPointWidth_key";
 	[self BIN_drawRect:dirtyRect];
 }
 
-#pragma mark - Caret Control
-
 - (void)BIN_assureCaretDisplay {
 	if(self.caret == nil) {
 		self.caret = [NSView new];
@@ -141,7 +121,7 @@ static const char *insertionPointWidth_key = "insertionPointWidth_key";
 		[self addSubview:self.caret];
 	}
 	
-	// NSTextLayer invalidates sublayers; prevent that.
+	// The 10.8+ NSTextLayer invalidates sublayers automatically; prevent that.
 	if(self.layer != nil)
 		[self.layer addSublayer:self.caret.layer];
 	self.caret.layer.backgroundColor = self.insertionPointColor.CGColor;
@@ -149,11 +129,7 @@ static const char *insertionPointWidth_key = "insertionPointWidth_key";
 
 - (void)BIN_relocateCaretToFrame:(NSRect)frame {
 	frame.size.width = self.insertionPointWidth;
-	
-	if(self.slideInsertionPoint) {
-		[[NSAnimationContext currentContext] setDuration:0.1f];
-		[self.caret.animator setFrame:frame];
-	} else self.caret.frame = frame;
+	self.caret.frame = frame;
 }
 
 - (void)BIN_adjustCaret:(BOOL)animate hidden:(BOOL)hidden opacity:(CGFloat)opacity {
@@ -175,16 +151,14 @@ static const char *insertionPointWidth_key = "insertionPointWidth_key";
 	}
 }//*/
 
-static CAAnimation *BINFlashingCursorAnimation() {
+/*static CAAnimation *BINFlashingCursorAnimation() {
 	CAKeyframeAnimation *flash = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
 	flash.values = @[@1.0f, @1.0f, @1.0f, @1.0f, @1.0,
 					 @0.5f, @0.0f, @0.0f, @0.0f, @1.0];
 	flash.repeatCount = HUGE_VALF;
 	flash.duration = 1.0f;
 	return flash;
-}
-
-#pragma mark - Caret Adjustments
+}//*/
 
 - (void)BIN_drawInsertionPointInRect:(NSRect)frame color:(NSColor *)color turnedOn:(BOOL)turnedOn {
 	[self BIN_assureCaretDisplay];
@@ -216,7 +190,5 @@ static CAAnimation *BINFlashingCursorAnimation() {
 	[self BIN_relocateCaretToFrame:frame];
 	self.previousCaretRange = [self.selectedRanges[0] rangeValue];
 }
-
-#pragma mark -
 
 @end

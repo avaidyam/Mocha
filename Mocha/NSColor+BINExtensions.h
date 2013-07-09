@@ -1,20 +1,26 @@
-#import <AppKit/AppKit.h>
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
+#import <AppKit/NSColor.h>
 #import "NSObject+BINExtensions.h"
 
-/*
- * Extensions to NSColor that add interoperability with CGColor for 10.7-
- */
 @interface NSColor (BINExtensions)
 
-// The CGColor corresponding to the receiver.
+// Returns a CGColor with the receiving NSColor.
 @property (nonatomic, readonly) CGColorRef CGColor;
 
-// Returns an NSColor corresponding to the given CGColor.
+// Returns an NSColor with the passed CGColor.
 + (NSColor *)colorWithCGColor:(CGColorRef)color;
 
-// Convenience methods.
-+ (NSColor *)colorWithWhite:(CGFloat)w alpha:(CGFloat)a;
-+ (NSColor *)colorWithRed:(CGFloat)r green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
-+ (NSColor *)colorWithHue:(CGFloat)h saturation:(CGFloat)s brightness:(CGFloat)b alpha:(CGFloat)a;
+// Backwards-compatible support for new NSColor convenience methods.
++ (NSColor *)colorWithWhite:(CGFloat)white alpha:(CGFloat)alpha;
++ (NSColor *)colorWithRed:(CGFloat)red green:(CGFloat)green
+					 blue:(CGFloat)blue alpha:(CGFloat)alpha;
++ (NSColor *)colorWithHue:(CGFloat)hue saturation:(CGFloat)saturation
+			   brightness:(CGFloat)brightness alpha:(CGFloat)alpha;
 
 @end

@@ -1,28 +1,15 @@
-#import "NSAffineTransform+BINExtensions.h"
-#import <objc/runtime.h>
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wincomplete-implementation"
-#pragma clang diagnostic ignored "-Wobjc-property-implementation"
+#import "NSAffineTransform+BINExtensions.h"
+
 @implementation NSAffineTransform (BINExtensions)
 
-+ (void)load {
-	if(!class_getInstanceMethod(NSAffineTransform.class, @selector(CGAffineTransform))) {
-		Method m = class_getInstanceMethod(NSAffineTransform.class, @selector(BIN_CGAffineTransform));
-		class_addMethod(NSColor.class, @selector(CGAffineTransform),
-						class_getMethodImplementation(NSAffineTransform.class, @selector(BIN_CGAffineTransform)),
-						method_getTypeEncoding(m));
-	}
-	
-	if(!class_getInstanceMethod(NSAffineTransform.class, @selector(transformWithCGAffineTransform:))) {
-		Method m = class_getInstanceMethod(NSAffineTransform.class, @selector(BIN_transformWithCGAffineTransform:));
-		class_addMethod(NSColor.class, @selector(transformWithCGAffineTransform:),
-						class_getMethodImplementation(NSAffineTransform.class, @selector(BIN_transformWithCGAffineTransform:)),
-						method_getTypeEncoding(m));
-	}
-}
-
-+ (NSAffineTransform *)BIN_transformWithCGAffineTransform:(CGAffineTransform)transform {
++ (NSAffineTransform *)transformWithCGAffineTransform:(CGAffineTransform)transform {
 	NSAffineTransform *affineTransform = [NSAffineTransform transform];
 	affineTransform.transformStruct = (NSAffineTransformStruct) {
 		.m11 = transform.a,
@@ -35,7 +22,7 @@
 	return affineTransform;
 }
 
-- (CGAffineTransform)BIN_CGAffineTransform {
+- (CGAffineTransform)CGAffineTransform {
 	NSAffineTransformStruct transform = self.transformStruct;
 	return (CGAffineTransform) {
 		.a = transform.m11,
@@ -46,7 +33,6 @@
 		.ty = transform.tY
 	};
 }
-#pragma clang diagnostic pop
 
 @end
 

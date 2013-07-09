@@ -1,4 +1,12 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import "NSPopover+BINExtensions.h"
+#import <AppKit/NSView.h>
 #import <objc/runtime.h>
 
 @implementation NSPopover (BINExtensions)

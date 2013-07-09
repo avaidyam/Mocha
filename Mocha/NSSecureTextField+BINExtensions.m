@@ -1,5 +1,20 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import "NSSecureTextField+BINExtensions.h"
+#import <AppKit/NSColor.h>
+#import <QuartzCore/QuartzCore.h>
+#define COMMON_DIGEST_FOR_OPENSSL
+#import <CommonCrypto/CommonDigest.h>
 #import <objc/runtime.h>
+
+#import "NSObject+BINExtensions.h"
+#import "CAAnimation+BINExtensions.h"
+#import "NSTextField+BINExtensions.h"
 
 #define MD5(data, len, md) CC_MD5(data, len, md)
 #define kNumberOfBars		3
@@ -7,21 +22,13 @@
 #define kBarWidth			10
 #define kBarPadding			2
 
-static NSString* md5(NSString *string) {
-	NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
-	unsigned char digest[MD5_DIGEST_LENGTH];
-	char finaldigest[2 * MD5_DIGEST_LENGTH];
-	
-	MD5(data.bytes, (unsigned)data.length, digest);
-	for(int i = 0 ; i < MD5_DIGEST_LENGTH;i++)
-		sprintf(finaldigest + i * 2, "%02x", digest[i]);
-	
-	return [[NSString alloc] initWithBytes:finaldigest
-									length:(2 * MD5_DIGEST_LENGTH)
-								  encoding:NSASCIIStringEncoding];
-}
+@interface NSString (BINExtensionsMD5Hash)
 
-@interface NSColor (HexRGB)
+- (NSString *)md5HashedString;
+
+@end
+
+@interface NSColor (BINExtensionsHexRGB)
 
 + (NSColor *)colorFromHexRGB:(NSString *)hexString;
 + (NSColor *)grayscaleFromHexRGB:(NSString *)hexString;
@@ -63,46 +70,16 @@ static const char *colorBars_key = "colorBars_key";
 @implementation NSSecureTextField (BINExtensions)
 
 + (void)load {
-	NSError *error = nil;
-	if(![NSSecureTextField exchangeInstanceMethod:@selector(initWithFrame:)
-									   withMethod:@selector(initWithFrame_BIN:)
-											error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSSecureTextField exchangeInstanceMethod:@selector(awakeFromNib)
-									   withMethod:@selector(BIN_awakeFromNib)
-											error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSSecureTextField exchangeInstanceMethod:@selector(setFrame:)
-									   withMethod:@selector(BIN_setFrame:)
-											error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSSecureTextField exchangeInstanceMethod:@selector(textDidChange:)
-									   withMethod:@selector(BIN_textDidChange:)
-											error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
-	
-	error = nil;
-	if(![NSSecureTextField exchangeInstanceMethod:@selector(drawRect:)
-									   withMethod:@selector(BIN_drawRect:)
-											error:&error]) {
-		NSLog(@"%@: %@", NSStringFromSelector(_cmd), error ?: @"unknown error!");
-	}
+	[self attemptToSwapInstanceMethod:@selector(initWithFrame:) withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(awakeFromNib) withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(setFrame:) withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(textDidChange:) withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(drawRect:) withPrefix:MochaPrefix];
 }
 
 - (id)initWithFrame_BIN:(NSRect)frameRect {
-	if((self = [self initWithFrame_BIN:frameRect])) {
+	if((self = [self initWithFrame_BIN:frameRect]))
 		[self BIN_setup];
-	}
 	return self;
 }
 
@@ -114,7 +91,7 @@ static const char *colorBars_key = "colorBars_key";
 extern BOOL _drawTextured;
 - (void)BIN_setup {
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-		[NSProcessInfo processInfo]; // Prime the hostname.
+		[NSProcessInfo processInfo]; // Prime the hostname. It takes a long time to access this.
 	});
 	
 	self.colorBars = [[NSMutableArray alloc] initWithCapacity:kNumberOfBars];
@@ -150,7 +127,7 @@ extern BOOL _drawTextured;
 	
 	NSString *value = [(id)notification.object string];
 	NSString *salt = [[NSProcessInfo processInfo] hostName];
-	NSString *hash = md5([salt stringByAppendingString:value]);
+	NSString *hash = [[salt stringByAppendingString:value] md5HashedString];
 	
 	[CATransaction begin];
 	NSInteger index = 0;
@@ -185,7 +162,25 @@ extern BOOL _drawTextured;
 
 @end
 
-@implementation NSColor (HexRGB)
+@implementation NSString (BINExtensionsMD5Hash)
+
+- (NSString *)md5HashedString {
+	NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
+	unsigned char digest[MD5_DIGEST_LENGTH];
+	char finaldigest[2 * MD5_DIGEST_LENGTH];
+	
+	MD5(data.bytes, (unsigned)data.length, digest);
+	for(int i = 0 ; i < MD5_DIGEST_LENGTH;i++)
+		sprintf(finaldigest + i * 2, "%02x", digest[i]);
+	
+	return [[NSString alloc] initWithBytes:finaldigest
+									length:(2 * MD5_DIGEST_LENGTH)
+								  encoding:NSASCIIStringEncoding];
+}
+
+@end
+
+@implementation NSColor (BINExtensionsHexRGB)
 
 + (NSColor *)colorFromHexRGB:(NSString *)hexString {
 	NSUInteger colorCode = 0;

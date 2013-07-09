@@ -1,3 +1,12 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
+// TODO: Add NSAppearance.
+// TODO: Add NSEventRecognizer.
 
 // Frameworks
 #import <AppKit/AppKit.h>
@@ -8,11 +17,13 @@
 // Classes
 #import "BINAnimation.h"
 #import "NSSystemInfo.h"
+#import "BINInspectorBar.h"
 
 // Foundation Categories
 #import "NSAffineTransform+BINExtensions.h"
 #import "NSCache+BINExtensions.h"
 #import "NSObject+BINExtensions.h"
+#import "NSProcessInfo+BINExtensions.h"
 #import "NSString+BINExtensions.h"
 #import "NSTimer+BINExtensions.h"
 #import "NSUserDefaults+BINExtensions.h"
@@ -59,8 +70,7 @@ extern void NSLaunchItemAtURLOnLogin(NSURL *itemURL, BOOL enabled, BOOL hidden);
 // Adds Modern Objective-C Subscripting to OS X 10.7.
 // The actual implementation of these methods is handled by the
 // libarclite framework, and so they do not need to be implemented.
-#if (!defined(__MAC_10_8) || __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8) && \
-(defined(__MAC_10_7) || __MAC_OS_X_VERSION_MIN_REQUIRED > __MAC_10_7)
+#if (!defined(__MAC_10_8) || __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8)
 @interface NSArray (BINIndexing)
 - (id)objectAtIndexedSubscript:(NSUInteger)idx;
 @end
@@ -77,6 +87,11 @@ extern void NSLaunchItemAtURLOnLogin(NSURL *itemURL, BOOL enabled, BOOL hidden);
 - (void)setObject:(id)obj forKeyedSubscript:(id)key;
 @end
 #endif
+
+// Adds an interface for the firstObject method.
+@interface NSArray (BINAdditions)
+- (id)firstObject;
+@end
 
 // These methods existed in AppKit since 10.7, but were made public
 // and subsequently deprecated in 10.9. They are AppStore compatible.

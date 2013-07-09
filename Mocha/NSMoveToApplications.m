@@ -1,3 +1,10 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
 #import <dlfcn.h>

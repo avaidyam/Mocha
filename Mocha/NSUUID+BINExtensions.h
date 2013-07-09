@@ -1,8 +1,17 @@
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
 #import <Foundation/Foundation.h>
 #import "NSObject+BINExtensions.h"
 
 #if !MOCHA_10_8
 
+// If NSUUID is not available on your platform (10.7), it will be "patched" in.
+//
 // Note: NSUUID is not toll-free bridged with CFUUID. Use UUID strings to convert
 // between CFUUID and NSUUID, if needed. NSUUIDs are not guaranteed to be comparable
 // by pointer value (as CFUUIDRef is); use isEqual: to compare two NSUUIDs.

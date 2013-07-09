@@ -1,21 +1,18 @@
-#import "NSShadow+BINExtensions.h"
+/*
+ *  Mocha.framework
+ *
+ *  Copyright (c) 2013 Galaxas0. All rights reserved.
+ *  For more copyright and licensing information, please see LICENSE.md.
+ */
+
+#import <AppKit/NSBezierPath.h>
 
 @interface NSBezierPath (BINExtensions)
 
+// Returns a CGPath with the receiving NSBezierPath.
 @property (nonatomic, readonly) CGPathRef CGPath CF_RETURNS_RETAINED;
 
-// Converts a CGPathRef into an NSBezierPath object and back.
+// Returns an NSBezierPath with the passed CGPath.
 + (NSBezierPath *)bezierPathWithCGPath:(CGPathRef)pathRef;
-
-// Fills the given shadow inside the bezier path.
-- (void)fillWithInnerShadow:(NSShadow *)shadow;
-
-// Draws a blurred "shadow" inside the bezier path with a color and radius.
-- (void)drawBlurWithColor:(NSColor *)color radius:(CGFloat)radius;
-
-// Strokes the bezier path on the inside or inside a clipped
-// rectangle within the path, instead of the standard outside stroke.
-- (void)strokeInside;
-- (void)strokeInsideWithinRect:(NSRect)clipRect;
 
 @end
