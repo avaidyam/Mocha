@@ -7,6 +7,7 @@
 
 #import <AppKit/NSControl.h>
 #import <AppKit/NSCell.h>
+#import <AppKit/NSButtonCell.h>
 
 // Allows Interface Builder support for setting internal cell properties.
 // Although the cell itself can be accessed from within IB, these
@@ -25,3 +26,5 @@
 @property (nonatomic, strong) IBOutlet id representedObject;
 
 @end
+
+

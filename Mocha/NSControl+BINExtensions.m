@@ -6,8 +6,16 @@
  */
 
 #import "NSControl+BINExtensions.h"
+#import "NSObject+BINExtensions.h"
 
 @implementation NSControl (BINExtensions)
+
++ (void)load {
+	[self attemptToAddInstanceMethod:@selector(allowsExpansionToolTips)
+						  withPrefix:@"BIN"];
+	[self attemptToAddInstanceMethod:@selector(setAllowsExpansionToolTips:)
+						  withPrefix:@"BIN"];
+}
 
 - (id)representedObject {
 	return [self.cell representedObject];
@@ -21,6 +29,14 @@
 }
 - (void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle {
 	[self.cell setBackgroundStyle:backgroundStyle];
+}
+
+- (BOOL)BIN_allowsExpansionToolTips {
+	return NO;
+}
+
+- (void)BIN_setAllowsExpansionToolTips:(BOOL)value {
+	
 }
 
 @end

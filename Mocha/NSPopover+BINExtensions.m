@@ -8,10 +8,14 @@
 #import "NSPopover+BINExtensions.h"
 #import <AppKit/NSView.h>
 #import <objc/runtime.h>
+#import "NSObject+BINExtensions.h"
 
 @implementation NSPopover (BINExtensions)
 
-#pragma mark - Associated Properties
++ (void)load {
+	[self attemptToSwapInstanceMethod:@selector(showRelativeToRect:ofView:preferredEdge:)
+						   withPrefix:MochaPrefix];
+}
 
 @dynamic relativePositioningView;
 static const char *relativePositioningView_key = "relativePositioningView_key";
@@ -31,8 +35,6 @@ static const char *preferredEdge_key = "preferredEdge_key";
 	objc_setAssociatedObject(self, preferredEdge_key, @(preferredEdge), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-#pragma mark - Convenience Methods
-
 - (void)show:(id)sender {
 	NSRect positioning = self.positioningRect;
 	if(NSEqualRects(positioning, NSZeroRect))
@@ -49,6 +51,10 @@ static const char *preferredEdge_key = "preferredEdge_key";
 	else [self show:sender];
 }
 
-#pragma mark - 
+- (void)BIN_showRelativeToRect:(NSRect)positioningRect ofView:(NSView *)positioningView preferredEdge:(NSRectEdge)preferredEdge {
+	self.preferredEdge = preferredEdge;
+	self.relativePositioningView = positioningView;
+	[self BIN_showRelativeToRect:positioningRect ofView:positioningView preferredEdge:preferredEdge];
+}
 
 @end

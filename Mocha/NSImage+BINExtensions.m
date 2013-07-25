@@ -49,7 +49,7 @@ static const char *capInsets_key = "capInsets_key";
 					   withPrefix:MochaPrefix];
 }
 
-+ (NSImage *)imageWithCGImage:(CGImageRef)cgImage {
++ (instancetype)imageWithCGImage:(CGImageRef)cgImage {
 	CGSize size = CGSizeMake(CGImageGetWidth(cgImage), CGImageGetHeight(cgImage));
 	return [[self alloc] initWithCGImage:cgImage size:size];
 }

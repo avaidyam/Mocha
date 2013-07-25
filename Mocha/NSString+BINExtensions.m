@@ -170,6 +170,8 @@
 	return symlinkPath;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (NSString *)stringByConditionallyResolvingAlias {
 	NSString *resolvedPath = nil;
 	CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (__bridge CFStringRef)self, kCFURLPOSIXPathStyle, NO);
@@ -177,7 +179,6 @@
 	if (url != NULL) {
 		FSRef fsRef;
 		if (CFURLGetFSRef(url, &fsRef)) {
-			
 			Boolean targetIsFolder, wasAliased;
 			OSErr err = FSResolveAliasFileWithMountFlags(&fsRef, false, &targetIsFolder, &wasAliased, kResolveAliasFileNoUI);
 			if ((err == noErr) && wasAliased) {
@@ -193,5 +194,6 @@
 	}
 	return resolvedPath;
 }
+#pragma clang diagnostic pop
 
 @end

@@ -52,8 +52,11 @@ NS_INLINE BOOL NSEdgeInsetsEqualToEdgeInsets(NSEdgeInsets a, NSEdgeInsets b) {
 // with vector representations, use -CGImageForProposedRect:context:hints.
 @property (nonatomic, readonly) CGImageRef CGImage;
 
+// Adds the instancetype modifier to the existing +imageNamed: method.
++ (instancetype)imageNamed:(NSString *)name;
+
 // Returns an NSBezierPath with the passed CGPath.
-+ (NSImage *)imageWithCGImage:(CGImageRef)cgImage;
++ (instancetype)imageWithCGImage:(CGImageRef)cgImage;
 
 // Backwards-compatible support for block-based lazy-drawn cached drawing
 // handlers. The block passed to the below method may be invoked whenever

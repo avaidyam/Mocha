@@ -57,30 +57,33 @@
 - (void)viewDidMoveToSuperview;
 
 @end
-//*/
 
 @interface NSView (BINExtensionsLayout)
 
-//- (void)layoutSubviews;
+- (void)layoutSubviews;
 
 @end
 
 // Adds setters to some properties for convenience.
 @interface NSView (BINProperties)
 
-@property (nonatomic, assign) CGPoint center;
-//@property (nonatomic, assign) NSInteger tag;
-//@property (nonatomic, assign) BOOL needsPanelToBecomeKey;
-//@property (nonatomic, assign) BOOL mouseDownCanMoveWindow;
-//@property (nonatomic, assign, getter = isOpaque) BOOL opaque;
-//@property (nonatomic, assign, getter = isFlipped) BOOL flipped;
+@property (nonatomic, assign) NSInteger tag;
+@property (nonatomic, assign) BOOL needsPanelToBecomeKey;
+@property (nonatomic, assign) BOOL mouseDownCanMoveWindow;
+@property (nonatomic, assign, getter = isOpaque) BOOL opaque;
+@property (nonatomic, assign, getter = isFlipped) BOOL flipped;
 
-@end
+@end//*/
 
 @interface NSView (BINExtensions)
 
+@property (nonatomic, assign) CGPoint center;
+@property (nonatomic, assign, getter = isFlipped) BOOL flipped;
+
 @property (nonatomic, readonly) NSImage *snapshot;
 @property (nonatomic, readonly) NSView *layerRepresentation;
+
++ (BOOL)doesCustomDrawing;
 
 - (void)scrollPoint:(NSPoint)point animated:(BOOL)animated;
 - (void)scrollPoint:(NSPoint)point animated:(BOOL)animated

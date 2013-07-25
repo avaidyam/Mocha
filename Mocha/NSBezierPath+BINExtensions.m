@@ -38,6 +38,11 @@ static void BIN_CGPathCallback(void *info, const CGPathElement *element) {
 	}
 }
 
+// Silence an attribute-related warning.
+@interface NSBezierPath (BINExtensionsPrivate)
+- (CGPathRef)CGPath CF_RETURNS_RETAINED;
+@end
+
 @implementation NSBezierPath (BINExtensions)
 
 + (NSBezierPath *)bezierPathWithCGPath:(CGPathRef)pathRef {

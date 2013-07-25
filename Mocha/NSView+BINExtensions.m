@@ -15,7 +15,7 @@
 #import <AppKit/NSImage.h>
 #import <objc/runtime.h>
 
-@interface NSView (BINExtensionsPrivate)
+/*@interface NSView (BINExtensionsPrivate)
 
 @property (nonatomic, strong) NSMutableDictionary *layerFlags;
 
@@ -34,27 +34,6 @@ static const char *layerFlags_key = "layerFlags_key";
 }
 - (void)setLayerFlags:(NSMutableDictionary *)layerFlags {
 	objc_setAssociatedObject(self, layerFlags_key, layerFlags, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-static IMP NSViewDrawRectIMP;
-+ (void)initialize {
-	if(self != [NSView class])
-		return;
-	NSViewDrawRectIMP = [self instanceMethodForSelector:@selector(drawRect:)];
-}
-+ (BOOL)doesCustomDrawing {
-	return [self instanceMethodForSelector:@selector(drawRect:)] != NSViewDrawRectIMP;
-}
-
-// Fix a few odd AppKit exception-raising bugs.
-- (void)setKeyEquivalent:(NSString *)e {
-	NSLog(@"-setKeyEquivalent: was invalidly invoked on a class that does not implement \
-		  this method. This message is a courtesy; please determine the cause and fix.");
-}
-
-- (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p>{ frame = %@, layer = <%@: %p> }",
-			self.class, self, NSStringFromRect(self.frame), self.layer.class, self.layer];
 }
 
 @end
@@ -84,20 +63,10 @@ static IMP NSViewDrawRectIMP;
 	self.needsDisplay = YES;
 }
 
-- (NSPoint)center {
-	return CGPointMake(NSMidX(self.frame), NSMidY(self.frame));
-}
-
-- (void)setCenter:(NSPoint)center {
-	NSRect f = self.frame;
-	f.origin = CGPointMake(center.x - f.size.width * 0.5, center.y - f.size.height * 0.5);
-	self.frame = f;
-}
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
 
-/*- (NSInteger)tag {
+- (NSInteger)tag {
 	return [self.layerFlags[@"tag"] integerValue];
 }
 
@@ -115,7 +84,7 @@ static IMP NSViewDrawRectIMP;
 
 - (BOOL)isFlipped {
 	return [self.layerFlags[@"flipped"] boolValue];
-}//*/
+}
 
 #pragma clang diagnostic pop
 
@@ -123,7 +92,7 @@ static IMP NSViewDrawRectIMP;
 
 @implementation NSView (BINExtensionsLayout)
 
-/*+ (void)load {
++ (void)load {
 	NSError *error = nil;
 	if(![NSView exchangeInstanceMethod:@selector(layout)
 							withMethod:@selector(BIN_layout)
@@ -144,11 +113,11 @@ static IMP NSViewDrawRectIMP;
 
 - (void)layoutSubviews {
 	// Unimplemented for subclassing.
-}//*/
+}
 
 @end
 
-/*@implementation NSView (BINExtensionsLayer)
+@implementation NSView (BINExtensionsLayer)
 
 + (void)load {
 	NSError *error = nil;
@@ -297,6 +266,26 @@ static IMP NSViewDrawRectIMP;
 
 @implementation NSView (BINExtensions)
 
+@dynamic flipped;
+
+static IMP NSViewDrawRectIMP;
++ (void)load {
+	NSViewDrawRectIMP = [self instanceMethodForSelector:@selector(drawRect:)];
+}
++ (BOOL)doesCustomDrawing {
+	return [self instanceMethodForSelector:@selector(drawRect:)] != NSViewDrawRectIMP;
+}
+
+- (NSPoint)center {
+	return NSMakePoint(NSMidX(self.frame), NSMidY(self.frame));
+}
+
+- (void)setCenter:(NSPoint)center {
+	NSRect f = self.frame;
+	f.origin = NSMakePoint(center.x - f.size.width * 0.5, center.y - f.size.height * 0.5);
+	self.frame = f;
+}
+
 - (NSImage *)snapshot {
 	NSBitmapImageRep *rep = [self bitmapImageRepForCachingDisplayInRect:self.bounds];
 	rep.size = self.bounds.size;
@@ -332,6 +321,17 @@ static IMP NSViewDrawRectIMP;
 	} completionHandler:handler];
 	[self.enclosingScrollView reflectScrolledClipView:clipView];
 	
+}
+
+// Fix a few odd AppKit exception-raising bugs.
+- (void)setKeyEquivalent:(NSString *)e {
+	NSLog(@"-setKeyEquivalent: was invalidly invoked on a class that does not implement \
+		  this method. This message is a courtesy; please determine the cause and fix.");
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p>{ frame = %@, layer = <%@: %p> }",
+			self.class, self, NSStringFromRect(self.frame), self.layer.class, self.layer];
 }
 
 @end

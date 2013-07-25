@@ -44,6 +44,10 @@ typedef void (^NSAlertCompletionHandler)(NSInteger);
 // of the following reasons: Apple has informally deprecated the method, the method
 // contains one or more components unadvisable for usage, or documentation states
 // the method should only be used in rare or conditional situations.
+//
+// You can also set buttons through a key-value compliant property "buttons".
+// i.e. buttons = @"First Button, Second Button, Third Button".
+// Note: The separator MUST be a COMMA followed by A SINGLE SPACE.
 @interface NSAlert (BINDeprecations)
 
 + (NSAlert *)alertWithMessageText:(NSString *)message

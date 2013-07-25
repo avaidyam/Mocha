@@ -47,6 +47,10 @@
 						   withPrefix:MochaPrefix];
 	[self attemptToSwapInstanceMethod:@selector(layout)
 						   withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(valueForKey:)
+						   withPrefix:MochaPrefix];
+	[self attemptToSwapInstanceMethod:@selector(setValue:forKey:)
+						   withPrefix:MochaPrefix];
 	[self attemptToAddInstanceMethod:@selector(beginSheetModalForWindow:completionHandler:)
 						  withPrefix:MochaPrefix];
 }
@@ -138,6 +142,25 @@
 	} else if(sender.window.sheetParent != nil) {
 		[sender.window.sheetParent endSheet:sender.window returnCode:sender.tag];
 	}
+}
+
+- (id)BIN_valueForKey:(NSString *)key {
+	if([key isEqualToString:@"buttons"]) {
+		NSMutableArray *buttonTitles = @[].mutableCopy;
+		for(NSButton *button in self.buttons)
+			buttonTitles[buttonTitles.count] = button.title;
+		return [buttonTitles componentsJoinedByString:@", "];
+	}
+	
+	return [self BIN_valueForKey:key];
+}
+
+- (void)BIN_setValue:(id)value forKey:(NSString *)key {
+	if([key isEqualToString:@"buttons"]) {
+		NSArray *buttonTitles = [value componentsSeparatedByString:@", "];
+		for(NSString *title in buttonTitles)
+			[self addButtonWithTitle:title];
+	} else [self BIN_setValue:value forKey:key];
 }
 
 @end

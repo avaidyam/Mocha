@@ -7,6 +7,10 @@
 
 // TODO: Add NSAppearance.
 // TODO: Add NSEventRecognizer.
+// TODO: Add NSUserNotification.
+// TODO: Add NSScrollView Live Magnify/Scroll
+// TODO: NSScrollView Floating Subviews
+// TODO: NSWindow/Application Occlusion
 
 // Frameworks
 #import <AppKit/AppKit.h>
@@ -17,11 +21,13 @@
 // Classes
 #import "BINAnimation.h"
 #import "NSSystemInfo.h"
+#import "NSImagePicker.h"
 #import "BINInspectorBar.h"
 
 // Foundation Categories
 #import "NSAffineTransform+BINExtensions.h"
 #import "NSCache+BINExtensions.h"
+#import "NSError+BINExtensions.h"
 #import "NSObject+BINExtensions.h"
 #import "NSProcessInfo+BINExtensions.h"
 #import "NSString+BINExtensions.h"
@@ -42,8 +48,7 @@
 
 // AppKit Control Categories
 #import "NSControl+BINExtensions.h"
-#import "NSSecureTextField+BINExtensions.h"
-#import "NSTableView+BINExtensions.h"
+#import "NSClipView+BINExtensions.h"
 #import "NSTextField+BINExtensions.h"
 #import "NSTextView+BINExtensions.h"
 
@@ -88,7 +93,7 @@ extern void NSLaunchItemAtURLOnLogin(NSURL *itemURL, BOOL enabled, BOOL hidden);
 @end
 #endif
 
-// Adds an interface for the firstObject method.
+// Adds an interface for the firstObject method, existing since 10.7.
 @interface NSArray (BINAdditions)
 - (id)firstObject;
 @end
