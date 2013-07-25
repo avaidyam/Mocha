@@ -11,4 +11,9 @@
 
 @property (nonatomic, strong) IBOutlet NSWindow *window;
 
+- (IBAction)moveAround:(id)sender;
+- (IBAction)animateOut:(id)sender;
+- (IBAction)animateFrame:(id)sender;
+- (IBAction)animateOutExplicitly:(id)sender;
+
 @end

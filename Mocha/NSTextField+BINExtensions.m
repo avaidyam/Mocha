@@ -39,12 +39,17 @@ static const char *accessoryView_key = "accessoryView_key";
 	[self.cell setVerticalAlignment:verticalAlignment];
 }
 
-- (void)layoutSubviews { //BIN_layout
++ (void)load {
+	[self attemptToSwapInstanceMethod:@selector(layout)
+						   withPrefix:MochaPrefix];
+}
+
+- (void)BIN_layout {
 	if(self.accessoryView != nil) {
 		self.accessoryView.frame = NSMakeRect(self.bounds.size.width - self.accessoryView.frame.size.width, 0,
 											  self.accessoryView.frame.size.width, self.bounds.size.height);
 	}
-	//[self BIN_layout];
+	[self BIN_layout];
 }
 
 @end

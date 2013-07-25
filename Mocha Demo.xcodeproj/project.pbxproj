@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		48F0F38C17A1E2C900671DF9 /* Mocha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F0F38B17A1E2B700671DF9 /* Mocha.framework */; };
 		48F0F38F17A1E38000671DF9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 488C27F117A1E1BF0004F592 /* MainMenu.xib */; };
+		48F0F39117A1E58B00671DF9 /* BINAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C27EF17A1E1BF0004F592 /* BINAppDelegate.m */; };
+		48F0F39217A1E5F500671DF9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C27E817A1E1BF0004F592 /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,6 +190,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48F0F39217A1E5F500671DF9 /* main.m in Sources */,
+				48F0F39117A1E58B00671DF9 /* BINAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
