@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		488C271B17A1DC430004F592 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 488C271A17A1DC430004F592 /* Cocoa.framework */; };
 		488C278417A1DCB00004F592 /* BINAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C274517A1DCB00004F592 /* BINAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		488C278517A1DCB00004F592 /* BINAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C274617A1DCB00004F592 /* BINAnimation.m */; };
 		488C278617A1DCB00004F592 /* BINInspectorBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C274717A1DCB00004F592 /* BINInspectorBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -74,6 +73,10 @@
 		488C27CD17A1DDEA0004F592 /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 488C27CA17A1DDEA0004F592 /* CONTRIBUTING.md */; };
 		488C27CE17A1DDEA0004F592 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 488C27CB17A1DDEA0004F592 /* LICENSE.md */; };
 		488C27CF17A1DDEA0004F592 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 488C27CC17A1DDEA0004F592 /* README.md */; };
+		48F0F38117A1E28F00671DF9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 488C271F17A1DC430004F592 /* AppKit.framework */; };
+		48F0F38217A1E29300671DF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 488C271D17A1DC430004F592 /* Foundation.framework */; };
+		48F0F38417A1E29900671DF9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F0F38317A1E29900671DF9 /* QuartzCore.framework */; };
+		48F0F38517A1E2A100671DF9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 488C271E17A1DC430004F592 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -150,6 +153,7 @@
 		488C27CA17A1DDEA0004F592 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CONTRIBUTING.md; path = ../CONTRIBUTING.md; sourceTree = "<group>"; };
 		488C27CB17A1DDEA0004F592 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		488C27CC17A1DDEA0004F592 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		48F0F38317A1E29900671DF9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,7 +161,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				488C271B17A1DC430004F592 /* Cocoa.framework in Frameworks */,
+				48F0F38217A1E29300671DF9 /* Foundation.framework in Frameworks */,
+				48F0F38117A1E28F00671DF9 /* AppKit.framework in Frameworks */,
+				48F0F38417A1E29900671DF9 /* QuartzCore.framework in Frameworks */,
+				48F0F38517A1E2A100671DF9 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +191,7 @@
 		488C271917A1DC430004F592 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				48F0F38317A1E29900671DF9 /* QuartzCore.framework */,
 				488C271A17A1DC430004F592 /* Cocoa.framework */,
 				488C272F17A1DC430004F592 /* XCTest.framework */,
 				488C271C17A1DC430004F592 /* Other Frameworks */,
