@@ -1,0 +1,611 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		488C271B17A1DC430004F592 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 488C271A17A1DC430004F592 /* Cocoa.framework */; };
+		488C278417A1DCB00004F592 /* BINAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C274517A1DCB00004F592 /* BINAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C278517A1DCB00004F592 /* BINAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C274617A1DCB00004F592 /* BINAnimation.m */; };
+		488C278617A1DCB00004F592 /* BINInspectorBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C274717A1DCB00004F592 /* BINInspectorBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C278717A1DCB00004F592 /* BINInspectorBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C274817A1DCB00004F592 /* BINInspectorBar.m */; };
+		488C278817A1DCB00004F592 /* CAAnimation+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C274917A1DCB00004F592 /* CAAnimation+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C278917A1DCB00004F592 /* CAAnimation+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C274A17A1DCB00004F592 /* CAAnimation+BINExtensions.m */; };
+		488C278A17A1DCB00004F592 /* CATransaction+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C274B17A1DCB00004F592 /* CATransaction+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C278B17A1DCB00004F592 /* CATransaction+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C274C17A1DCB00004F592 /* CATransaction+BINExtensions.m */; };
+		488C278C17A1DCB00004F592 /* Mocha.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C274D17A1DCB00004F592 /* Mocha.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C278D17A1DCB00004F592 /* NSAffineTransform+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C274E17A1DCB00004F592 /* NSAffineTransform+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C278E17A1DCB00004F592 /* NSAffineTransform+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C274F17A1DCB00004F592 /* NSAffineTransform+BINExtensions.m */; };
+		488C278F17A1DCB00004F592 /* NSAlert+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C275017A1DCB00004F592 /* NSAlert+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C279017A1DCB00004F592 /* NSAlert+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C275117A1DCB00004F592 /* NSAlert+BINExtensions.m */; };
+		488C279117A1DCB00004F592 /* NSBezierPath+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C275217A1DCB00004F592 /* NSBezierPath+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C279217A1DCB00004F592 /* NSBezierPath+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C275317A1DCB00004F592 /* NSBezierPath+BINExtensions.m */; };
+		488C279317A1DCB00004F592 /* NSCache+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C275417A1DCB00004F592 /* NSCache+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C279417A1DCB00004F592 /* NSCache+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C275517A1DCB00004F592 /* NSCache+BINExtensions.m */; };
+		488C279517A1DCB00004F592 /* NSClipView+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C275617A1DCB00004F592 /* NSClipView+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C279617A1DCB00004F592 /* NSClipView+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C275717A1DCB00004F592 /* NSClipView+BINExtensions.m */; };
+		488C279717A1DCB00004F592 /* NSColor+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C275817A1DCB00004F592 /* NSColor+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C279817A1DCB00004F592 /* NSColor+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C275917A1DCB00004F592 /* NSColor+BINExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		488C279917A1DCB00004F592 /* NSColorPanel+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C275A17A1DCB00004F592 /* NSColorPanel+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C279A17A1DCB00004F592 /* NSColorPanel+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C275B17A1DCB00004F592 /* NSColorPanel+BINExtensions.m */; };
+		488C279B17A1DCB00004F592 /* NSControl+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C275C17A1DCB00004F592 /* NSControl+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C279C17A1DCB00004F592 /* NSControl+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C275D17A1DCB00004F592 /* NSControl+BINExtensions.m */; };
+		488C279D17A1DCB00004F592 /* NSError+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C275E17A1DCB00004F592 /* NSError+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C279E17A1DCB00004F592 /* NSError+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C275F17A1DCB00004F592 /* NSError+BINExtensions.m */; };
+		488C279F17A1DCB00004F592 /* NSGradient+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C276017A1DCB00004F592 /* NSGradient+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27A017A1DCB00004F592 /* NSGradient+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C276117A1DCB00004F592 /* NSGradient+BINExtensions.m */; };
+		488C27A117A1DCB00004F592 /* NSImage+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C276217A1DCB00004F592 /* NSImage+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27A217A1DCB00004F592 /* NSImage+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C276317A1DCB00004F592 /* NSImage+BINExtensions.m */; };
+		488C27A317A1DCB00004F592 /* NSImagePicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C276417A1DCB00004F592 /* NSImagePicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27A417A1DCB00004F592 /* NSImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C276517A1DCB00004F592 /* NSImagePicker.m */; };
+		488C27A517A1DCB00004F592 /* NSLaunchAtLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C276617A1DCB00004F592 /* NSLaunchAtLogin.m */; };
+		488C27A617A1DCB00004F592 /* NSMoveToApplications.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C276717A1DCB00004F592 /* NSMoveToApplications.m */; };
+		488C27A717A1DCB00004F592 /* NSObject+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C276817A1DCB00004F592 /* NSObject+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27A817A1DCB00004F592 /* NSObject+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C276917A1DCB00004F592 /* NSObject+BINExtensions.m */; };
+		488C27A917A1DCB00004F592 /* NSPopover+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C276A17A1DCB00004F592 /* NSPopover+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27AA17A1DCB00004F592 /* NSPopover+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C276B17A1DCB00004F592 /* NSPopover+BINExtensions.m */; };
+		488C27AB17A1DCB00004F592 /* NSProcessInfo+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C276C17A1DCB00004F592 /* NSProcessInfo+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27AC17A1DCB00004F592 /* NSProcessInfo+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C276D17A1DCB00004F592 /* NSProcessInfo+BINExtensions.m */; };
+		488C27AD17A1DCB00004F592 /* NSShadow+ BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C276E17A1DCB00004F592 /* NSShadow+ BINExtensions.m */; };
+		488C27AE17A1DCB00004F592 /* NSShadow+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C276F17A1DCB00004F592 /* NSShadow+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27AF17A1DCB00004F592 /* NSString+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C277017A1DCB00004F592 /* NSString+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27B017A1DCB00004F592 /* NSString+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C277117A1DCB00004F592 /* NSString+BINExtensions.m */; };
+		488C27B117A1DCB00004F592 /* NSSystemInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C277217A1DCB00004F592 /* NSSystemInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27B217A1DCB00004F592 /* NSSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C277317A1DCB00004F592 /* NSSystemInfo.m */; };
+		488C27B317A1DCB00004F592 /* NSTabView+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C277417A1DCB00004F592 /* NSTabView+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27B417A1DCB00004F592 /* NSTabView+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C277517A1DCB00004F592 /* NSTabView+BINExtensions.m */; };
+		488C27B517A1DCB00004F592 /* NSTextField+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C277617A1DCB00004F592 /* NSTextField+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27B617A1DCB00004F592 /* NSTextField+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C277717A1DCB00004F592 /* NSTextField+BINExtensions.m */; };
+		488C27B717A1DCB00004F592 /* NSTextView+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C277817A1DCB00004F592 /* NSTextView+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27B817A1DCB00004F592 /* NSTextView+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C277917A1DCB00004F592 /* NSTextView+BINExtensions.m */; };
+		488C27B917A1DCB00004F592 /* NSTimer+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C277A17A1DCB00004F592 /* NSTimer+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27BA17A1DCB00004F592 /* NSTimer+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C277B17A1DCB00004F592 /* NSTimer+BINExtensions.m */; };
+		488C27BB17A1DCB00004F592 /* NSUserDefaults+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C277C17A1DCB00004F592 /* NSUserDefaults+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27BC17A1DCB00004F592 /* NSUserDefaults+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C277D17A1DCB00004F592 /* NSUserDefaults+BINExtensions.m */; };
+		488C27BD17A1DCB00004F592 /* NSUUID+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C277E17A1DCB00004F592 /* NSUUID+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27BE17A1DCB00004F592 /* NSUUID+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C277F17A1DCB00004F592 /* NSUUID+BINExtensions.m */; };
+		488C27BF17A1DCB00004F592 /* NSView+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C278017A1DCB00004F592 /* NSView+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27C017A1DCB00004F592 /* NSView+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C278117A1DCB00004F592 /* NSView+BINExtensions.m */; };
+		488C27C117A1DCB00004F592 /* NSWindow+BINExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 488C278217A1DCB00004F592 /* NSWindow+BINExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		488C27C217A1DCB00004F592 /* NSWindow+BINExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 488C278317A1DCB00004F592 /* NSWindow+BINExtensions.m */; };
+		488C27CD17A1DDEA0004F592 /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 488C27CA17A1DDEA0004F592 /* CONTRIBUTING.md */; };
+		488C27CE17A1DDEA0004F592 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 488C27CB17A1DDEA0004F592 /* LICENSE.md */; };
+		488C27CF17A1DDEA0004F592 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 488C27CC17A1DDEA0004F592 /* README.md */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		488C271717A1DC430004F592 /* Mocha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mocha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		488C271A17A1DC430004F592 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		488C271D17A1DC430004F592 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		488C271E17A1DC430004F592 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		488C271F17A1DC430004F592 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		488C272217A1DC430004F592 /* Mocha-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mocha-Info.plist"; sourceTree = "<group>"; };
+		488C272F17A1DC430004F592 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		488C274517A1DCB00004F592 /* BINAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BINAnimation.h; sourceTree = "<group>"; };
+		488C274617A1DCB00004F592 /* BINAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BINAnimation.m; sourceTree = "<group>"; };
+		488C274717A1DCB00004F592 /* BINInspectorBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BINInspectorBar.h; sourceTree = "<group>"; };
+		488C274817A1DCB00004F592 /* BINInspectorBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BINInspectorBar.m; sourceTree = "<group>"; };
+		488C274917A1DCB00004F592 /* CAAnimation+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAAnimation+BINExtensions.h"; sourceTree = "<group>"; };
+		488C274A17A1DCB00004F592 /* CAAnimation+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+BINExtensions.m"; sourceTree = "<group>"; };
+		488C274B17A1DCB00004F592 /* CATransaction+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CATransaction+BINExtensions.h"; sourceTree = "<group>"; };
+		488C274C17A1DCB00004F592 /* CATransaction+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CATransaction+BINExtensions.m"; sourceTree = "<group>"; };
+		488C274D17A1DCB00004F592 /* Mocha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mocha.h; sourceTree = "<group>"; };
+		488C274E17A1DCB00004F592 /* NSAffineTransform+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAffineTransform+BINExtensions.h"; sourceTree = "<group>"; };
+		488C274F17A1DCB00004F592 /* NSAffineTransform+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAffineTransform+BINExtensions.m"; sourceTree = "<group>"; };
+		488C275017A1DCB00004F592 /* NSAlert+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+BINExtensions.h"; sourceTree = "<group>"; };
+		488C275117A1DCB00004F592 /* NSAlert+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+BINExtensions.m"; sourceTree = "<group>"; };
+		488C275217A1DCB00004F592 /* NSBezierPath+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+BINExtensions.h"; sourceTree = "<group>"; };
+		488C275317A1DCB00004F592 /* NSBezierPath+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+BINExtensions.m"; sourceTree = "<group>"; };
+		488C275417A1DCB00004F592 /* NSCache+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCache+BINExtensions.h"; sourceTree = "<group>"; };
+		488C275517A1DCB00004F592 /* NSCache+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCache+BINExtensions.m"; sourceTree = "<group>"; };
+		488C275617A1DCB00004F592 /* NSClipView+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSClipView+BINExtensions.h"; sourceTree = "<group>"; };
+		488C275717A1DCB00004F592 /* NSClipView+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSClipView+BINExtensions.m"; sourceTree = "<group>"; };
+		488C275817A1DCB00004F592 /* NSColor+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+BINExtensions.h"; sourceTree = "<group>"; };
+		488C275917A1DCB00004F592 /* NSColor+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+BINExtensions.m"; sourceTree = "<group>"; };
+		488C275A17A1DCB00004F592 /* NSColorPanel+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColorPanel+BINExtensions.h"; sourceTree = "<group>"; };
+		488C275B17A1DCB00004F592 /* NSColorPanel+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColorPanel+BINExtensions.m"; sourceTree = "<group>"; };
+		488C275C17A1DCB00004F592 /* NSControl+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSControl+BINExtensions.h"; sourceTree = "<group>"; };
+		488C275D17A1DCB00004F592 /* NSControl+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSControl+BINExtensions.m"; sourceTree = "<group>"; };
+		488C275E17A1DCB00004F592 /* NSError+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+BINExtensions.h"; sourceTree = "<group>"; };
+		488C275F17A1DCB00004F592 /* NSError+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+BINExtensions.m"; sourceTree = "<group>"; };
+		488C276017A1DCB00004F592 /* NSGradient+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSGradient+BINExtensions.h"; sourceTree = "<group>"; };
+		488C276117A1DCB00004F592 /* NSGradient+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSGradient+BINExtensions.m"; sourceTree = "<group>"; };
+		488C276217A1DCB00004F592 /* NSImage+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+BINExtensions.h"; sourceTree = "<group>"; };
+		488C276317A1DCB00004F592 /* NSImage+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+BINExtensions.m"; sourceTree = "<group>"; };
+		488C276417A1DCB00004F592 /* NSImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSImagePicker.h; sourceTree = "<group>"; };
+		488C276517A1DCB00004F592 /* NSImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSImagePicker.m; sourceTree = "<group>"; };
+		488C276617A1DCB00004F592 /* NSLaunchAtLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSLaunchAtLogin.m; sourceTree = "<group>"; };
+		488C276717A1DCB00004F592 /* NSMoveToApplications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMoveToApplications.m; sourceTree = "<group>"; };
+		488C276817A1DCB00004F592 /* NSObject+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+BINExtensions.h"; sourceTree = "<group>"; };
+		488C276917A1DCB00004F592 /* NSObject+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BINExtensions.m"; sourceTree = "<group>"; };
+		488C276A17A1DCB00004F592 /* NSPopover+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSPopover+BINExtensions.h"; sourceTree = "<group>"; };
+		488C276B17A1DCB00004F592 /* NSPopover+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSPopover+BINExtensions.m"; sourceTree = "<group>"; };
+		488C276C17A1DCB00004F592 /* NSProcessInfo+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSProcessInfo+BINExtensions.h"; sourceTree = "<group>"; };
+		488C276D17A1DCB00004F592 /* NSProcessInfo+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSProcessInfo+BINExtensions.m"; sourceTree = "<group>"; };
+		488C276E17A1DCB00004F592 /* NSShadow+ BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSShadow+ BINExtensions.m"; sourceTree = "<group>"; };
+		488C276F17A1DCB00004F592 /* NSShadow+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSShadow+BINExtensions.h"; sourceTree = "<group>"; };
+		488C277017A1DCB00004F592 /* NSString+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+BINExtensions.h"; sourceTree = "<group>"; };
+		488C277117A1DCB00004F592 /* NSString+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BINExtensions.m"; sourceTree = "<group>"; };
+		488C277217A1DCB00004F592 /* NSSystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSystemInfo.h; sourceTree = "<group>"; };
+		488C277317A1DCB00004F592 /* NSSystemInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSystemInfo.m; sourceTree = "<group>"; };
+		488C277417A1DCB00004F592 /* NSTabView+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTabView+BINExtensions.h"; sourceTree = "<group>"; };
+		488C277517A1DCB00004F592 /* NSTabView+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTabView+BINExtensions.m"; sourceTree = "<group>"; };
+		488C277617A1DCB00004F592 /* NSTextField+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTextField+BINExtensions.h"; sourceTree = "<group>"; };
+		488C277717A1DCB00004F592 /* NSTextField+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTextField+BINExtensions.m"; sourceTree = "<group>"; };
+		488C277817A1DCB00004F592 /* NSTextView+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTextView+BINExtensions.h"; sourceTree = "<group>"; };
+		488C277917A1DCB00004F592 /* NSTextView+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTextView+BINExtensions.m"; sourceTree = "<group>"; };
+		488C277A17A1DCB00004F592 /* NSTimer+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+BINExtensions.h"; sourceTree = "<group>"; };
+		488C277B17A1DCB00004F592 /* NSTimer+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+BINExtensions.m"; sourceTree = "<group>"; };
+		488C277C17A1DCB00004F592 /* NSUserDefaults+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+BINExtensions.h"; sourceTree = "<group>"; };
+		488C277D17A1DCB00004F592 /* NSUserDefaults+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+BINExtensions.m"; sourceTree = "<group>"; };
+		488C277E17A1DCB00004F592 /* NSUUID+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUUID+BINExtensions.h"; sourceTree = "<group>"; };
+		488C277F17A1DCB00004F592 /* NSUUID+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUUID+BINExtensions.m"; sourceTree = "<group>"; };
+		488C278017A1DCB00004F592 /* NSView+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+BINExtensions.h"; sourceTree = "<group>"; };
+		488C278117A1DCB00004F592 /* NSView+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+BINExtensions.m"; sourceTree = "<group>"; };
+		488C278217A1DCB00004F592 /* NSWindow+BINExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+BINExtensions.h"; sourceTree = "<group>"; };
+		488C278317A1DCB00004F592 /* NSWindow+BINExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+BINExtensions.m"; sourceTree = "<group>"; };
+		488C27CA17A1DDEA0004F592 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CONTRIBUTING.md; path = ../CONTRIBUTING.md; sourceTree = "<group>"; };
+		488C27CB17A1DDEA0004F592 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
+		488C27CC17A1DDEA0004F592 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		488C271317A1DC430004F592 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				488C271B17A1DC430004F592 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		488C270D17A1DC430004F592 = {
+			isa = PBXGroup;
+			children = (
+				488C272017A1DC430004F592 /* Mocha */,
+				488C271917A1DC430004F592 /* Frameworks */,
+				488C271817A1DC430004F592 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		488C271817A1DC430004F592 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				488C271717A1DC430004F592 /* Mocha.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		488C271917A1DC430004F592 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				488C271A17A1DC430004F592 /* Cocoa.framework */,
+				488C272F17A1DC430004F592 /* XCTest.framework */,
+				488C271C17A1DC430004F592 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		488C271C17A1DC430004F592 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				488C271D17A1DC430004F592 /* Foundation.framework */,
+				488C271E17A1DC430004F592 /* CoreData.framework */,
+				488C271F17A1DC430004F592 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		488C272017A1DC430004F592 /* Mocha */ = {
+			isa = PBXGroup;
+			children = (
+				488C274D17A1DCB00004F592 /* Mocha.h */,
+				488C27C317A1DCD30004F592 /* Classes */,
+				488C27C417A1DCDA0004F592 /* Quartz */,
+				488C27C617A1DD460004F592 /* Foundation */,
+				488C27C517A1DD3F0004F592 /* AppKit */,
+				488C272117A1DC430004F592 /* Supporting Files */,
+			);
+			path = Mocha;
+			sourceTree = "<group>";
+		};
+		488C272117A1DC430004F592 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				488C27CC17A1DDEA0004F592 /* README.md */,
+				488C27CB17A1DDEA0004F592 /* LICENSE.md */,
+				488C27CA17A1DDEA0004F592 /* CONTRIBUTING.md */,
+				488C272217A1DC430004F592 /* Mocha-Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		488C27C317A1DCD30004F592 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				488C276617A1DCB00004F592 /* NSLaunchAtLogin.m */,
+				488C276717A1DCB00004F592 /* NSMoveToApplications.m */,
+				488C274517A1DCB00004F592 /* BINAnimation.h */,
+				488C274617A1DCB00004F592 /* BINAnimation.m */,
+				488C274717A1DCB00004F592 /* BINInspectorBar.h */,
+				488C274817A1DCB00004F592 /* BINInspectorBar.m */,
+				488C276417A1DCB00004F592 /* NSImagePicker.h */,
+				488C276517A1DCB00004F592 /* NSImagePicker.m */,
+				488C277217A1DCB00004F592 /* NSSystemInfo.h */,
+				488C277317A1DCB00004F592 /* NSSystemInfo.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		488C27C417A1DCDA0004F592 /* Quartz */ = {
+			isa = PBXGroup;
+			children = (
+				488C274917A1DCB00004F592 /* CAAnimation+BINExtensions.h */,
+				488C274A17A1DCB00004F592 /* CAAnimation+BINExtensions.m */,
+				488C274B17A1DCB00004F592 /* CATransaction+BINExtensions.h */,
+				488C274C17A1DCB00004F592 /* CATransaction+BINExtensions.m */,
+			);
+			name = Quartz;
+			sourceTree = "<group>";
+		};
+		488C27C517A1DD3F0004F592 /* AppKit */ = {
+			isa = PBXGroup;
+			children = (
+				488C27C717A1DD780004F592 /* Graphics */,
+				488C27C817A1DD8C0004F592 /* Controls */,
+				488C27C917A1DD950004F592 /* Displays */,
+			);
+			name = AppKit;
+			sourceTree = "<group>";
+		};
+		488C27C617A1DD460004F592 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				488C274E17A1DCB00004F592 /* NSAffineTransform+BINExtensions.h */,
+				488C274F17A1DCB00004F592 /* NSAffineTransform+BINExtensions.m */,
+				488C275417A1DCB00004F592 /* NSCache+BINExtensions.h */,
+				488C275517A1DCB00004F592 /* NSCache+BINExtensions.m */,
+				488C275E17A1DCB00004F592 /* NSError+BINExtensions.h */,
+				488C275F17A1DCB00004F592 /* NSError+BINExtensions.m */,
+				488C276817A1DCB00004F592 /* NSObject+BINExtensions.h */,
+				488C276917A1DCB00004F592 /* NSObject+BINExtensions.m */,
+				488C276C17A1DCB00004F592 /* NSProcessInfo+BINExtensions.h */,
+				488C276D17A1DCB00004F592 /* NSProcessInfo+BINExtensions.m */,
+				488C277017A1DCB00004F592 /* NSString+BINExtensions.h */,
+				488C277117A1DCB00004F592 /* NSString+BINExtensions.m */,
+				488C277A17A1DCB00004F592 /* NSTimer+BINExtensions.h */,
+				488C277B17A1DCB00004F592 /* NSTimer+BINExtensions.m */,
+				488C277C17A1DCB00004F592 /* NSUserDefaults+BINExtensions.h */,
+				488C277D17A1DCB00004F592 /* NSUserDefaults+BINExtensions.m */,
+				488C277E17A1DCB00004F592 /* NSUUID+BINExtensions.h */,
+				488C277F17A1DCB00004F592 /* NSUUID+BINExtensions.m */,
+			);
+			name = Foundation;
+			sourceTree = "<group>";
+		};
+		488C27C717A1DD780004F592 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				488C275217A1DCB00004F592 /* NSBezierPath+BINExtensions.h */,
+				488C275317A1DCB00004F592 /* NSBezierPath+BINExtensions.m */,
+				488C275817A1DCB00004F592 /* NSColor+BINExtensions.h */,
+				488C275917A1DCB00004F592 /* NSColor+BINExtensions.m */,
+				488C276017A1DCB00004F592 /* NSGradient+BINExtensions.h */,
+				488C276117A1DCB00004F592 /* NSGradient+BINExtensions.m */,
+				488C276217A1DCB00004F592 /* NSImage+BINExtensions.h */,
+				488C276317A1DCB00004F592 /* NSImage+BINExtensions.m */,
+				488C276E17A1DCB00004F592 /* NSShadow+ BINExtensions.m */,
+				488C276F17A1DCB00004F592 /* NSShadow+BINExtensions.h */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		488C27C817A1DD8C0004F592 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				488C275617A1DCB00004F592 /* NSClipView+BINExtensions.h */,
+				488C275717A1DCB00004F592 /* NSClipView+BINExtensions.m */,
+				488C275C17A1DCB00004F592 /* NSControl+BINExtensions.h */,
+				488C275D17A1DCB00004F592 /* NSControl+BINExtensions.m */,
+				488C277417A1DCB00004F592 /* NSTabView+BINExtensions.h */,
+				488C277517A1DCB00004F592 /* NSTabView+BINExtensions.m */,
+				488C277617A1DCB00004F592 /* NSTextField+BINExtensions.h */,
+				488C277717A1DCB00004F592 /* NSTextField+BINExtensions.m */,
+				488C277817A1DCB00004F592 /* NSTextView+BINExtensions.h */,
+				488C277917A1DCB00004F592 /* NSTextView+BINExtensions.m */,
+			);
+			name = Controls;
+			sourceTree = "<group>";
+		};
+		488C27C917A1DD950004F592 /* Displays */ = {
+			isa = PBXGroup;
+			children = (
+				488C275017A1DCB00004F592 /* NSAlert+BINExtensions.h */,
+				488C275117A1DCB00004F592 /* NSAlert+BINExtensions.m */,
+				488C275A17A1DCB00004F592 /* NSColorPanel+BINExtensions.h */,
+				488C275B17A1DCB00004F592 /* NSColorPanel+BINExtensions.m */,
+				488C276A17A1DCB00004F592 /* NSPopover+BINExtensions.h */,
+				488C276B17A1DCB00004F592 /* NSPopover+BINExtensions.m */,
+				488C278017A1DCB00004F592 /* NSView+BINExtensions.h */,
+				488C278117A1DCB00004F592 /* NSView+BINExtensions.m */,
+				488C278217A1DCB00004F592 /* NSWindow+BINExtensions.h */,
+				488C278317A1DCB00004F592 /* NSWindow+BINExtensions.m */,
+			);
+			name = Displays;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		488C271417A1DC430004F592 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				488C279F17A1DCB00004F592 /* NSGradient+BINExtensions.h in Headers */,
+				488C27B717A1DCB00004F592 /* NSTextView+BINExtensions.h in Headers */,
+				488C27A317A1DCB00004F592 /* NSImagePicker.h in Headers */,
+				488C279517A1DCB00004F592 /* NSClipView+BINExtensions.h in Headers */,
+				488C278C17A1DCB00004F592 /* Mocha.h in Headers */,
+				488C278617A1DCB00004F592 /* BINInspectorBar.h in Headers */,
+				488C278A17A1DCB00004F592 /* CATransaction+BINExtensions.h in Headers */,
+				488C27A717A1DCB00004F592 /* NSObject+BINExtensions.h in Headers */,
+				488C27BF17A1DCB00004F592 /* NSView+BINExtensions.h in Headers */,
+				488C27A117A1DCB00004F592 /* NSImage+BINExtensions.h in Headers */,
+				488C278D17A1DCB00004F592 /* NSAffineTransform+BINExtensions.h in Headers */,
+				488C27AE17A1DCB00004F592 /* NSShadow+BINExtensions.h in Headers */,
+				488C278817A1DCB00004F592 /* CAAnimation+BINExtensions.h in Headers */,
+				488C27BD17A1DCB00004F592 /* NSUUID+BINExtensions.h in Headers */,
+				488C279B17A1DCB00004F592 /* NSControl+BINExtensions.h in Headers */,
+				488C27AF17A1DCB00004F592 /* NSString+BINExtensions.h in Headers */,
+				488C279917A1DCB00004F592 /* NSColorPanel+BINExtensions.h in Headers */,
+				488C27B517A1DCB00004F592 /* NSTextField+BINExtensions.h in Headers */,
+				488C279117A1DCB00004F592 /* NSBezierPath+BINExtensions.h in Headers */,
+				488C27B917A1DCB00004F592 /* NSTimer+BINExtensions.h in Headers */,
+				488C279717A1DCB00004F592 /* NSColor+BINExtensions.h in Headers */,
+				488C27A917A1DCB00004F592 /* NSPopover+BINExtensions.h in Headers */,
+				488C27BB17A1DCB00004F592 /* NSUserDefaults+BINExtensions.h in Headers */,
+				488C27C117A1DCB00004F592 /* NSWindow+BINExtensions.h in Headers */,
+				488C279D17A1DCB00004F592 /* NSError+BINExtensions.h in Headers */,
+				488C278417A1DCB00004F592 /* BINAnimation.h in Headers */,
+				488C279317A1DCB00004F592 /* NSCache+BINExtensions.h in Headers */,
+				488C278F17A1DCB00004F592 /* NSAlert+BINExtensions.h in Headers */,
+				488C27B117A1DCB00004F592 /* NSSystemInfo.h in Headers */,
+				488C27B317A1DCB00004F592 /* NSTabView+BINExtensions.h in Headers */,
+				488C27AB17A1DCB00004F592 /* NSProcessInfo+BINExtensions.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		488C271617A1DC430004F592 /* Mocha */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 488C273F17A1DC430004F592 /* Build configuration list for PBXNativeTarget "Mocha" */;
+			buildPhases = (
+				488C271217A1DC430004F592 /* Sources */,
+				488C271317A1DC430004F592 /* Frameworks */,
+				488C271417A1DC430004F592 /* Headers */,
+				488C271517A1DC430004F592 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Mocha;
+			productName = Mocha;
+			productReference = 488C271717A1DC430004F592 /* Mocha.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		488C270E17A1DC430004F592 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Aditya Vaidyam";
+			};
+			buildConfigurationList = 488C271117A1DC430004F592 /* Build configuration list for PBXProject "Mocha" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 488C270D17A1DC430004F592;
+			productRefGroup = 488C271817A1DC430004F592 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				488C271617A1DC430004F592 /* Mocha */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		488C271517A1DC430004F592 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				488C27CD17A1DDEA0004F592 /* CONTRIBUTING.md in Resources */,
+				488C27CE17A1DDEA0004F592 /* LICENSE.md in Resources */,
+				488C27CF17A1DDEA0004F592 /* README.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		488C271217A1DC430004F592 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				488C27C217A1DCB00004F592 /* NSWindow+BINExtensions.m in Sources */,
+				488C27AA17A1DCB00004F592 /* NSPopover+BINExtensions.m in Sources */,
+				488C278517A1DCB00004F592 /* BINAnimation.m in Sources */,
+				488C279E17A1DCB00004F592 /* NSError+BINExtensions.m in Sources */,
+				488C27B217A1DCB00004F592 /* NSSystemInfo.m in Sources */,
+				488C27BA17A1DCB00004F592 /* NSTimer+BINExtensions.m in Sources */,
+				488C27AD17A1DCB00004F592 /* NSShadow+ BINExtensions.m in Sources */,
+				488C279217A1DCB00004F592 /* NSBezierPath+BINExtensions.m in Sources */,
+				488C279017A1DCB00004F592 /* NSAlert+BINExtensions.m in Sources */,
+				488C27A217A1DCB00004F592 /* NSImage+BINExtensions.m in Sources */,
+				488C27BC17A1DCB00004F592 /* NSUserDefaults+BINExtensions.m in Sources */,
+				488C27A617A1DCB00004F592 /* NSMoveToApplications.m in Sources */,
+				488C279417A1DCB00004F592 /* NSCache+BINExtensions.m in Sources */,
+				488C27B417A1DCB00004F592 /* NSTabView+BINExtensions.m in Sources */,
+				488C279617A1DCB00004F592 /* NSClipView+BINExtensions.m in Sources */,
+				488C278E17A1DCB00004F592 /* NSAffineTransform+BINExtensions.m in Sources */,
+				488C27BE17A1DCB00004F592 /* NSUUID+BINExtensions.m in Sources */,
+				488C279817A1DCB00004F592 /* NSColor+BINExtensions.m in Sources */,
+				488C27B817A1DCB00004F592 /* NSTextView+BINExtensions.m in Sources */,
+				488C27A517A1DCB00004F592 /* NSLaunchAtLogin.m in Sources */,
+				488C279A17A1DCB00004F592 /* NSColorPanel+BINExtensions.m in Sources */,
+				488C278917A1DCB00004F592 /* CAAnimation+BINExtensions.m in Sources */,
+				488C27AC17A1DCB00004F592 /* NSProcessInfo+BINExtensions.m in Sources */,
+				488C278B17A1DCB00004F592 /* CATransaction+BINExtensions.m in Sources */,
+				488C27A417A1DCB00004F592 /* NSImagePicker.m in Sources */,
+				488C279C17A1DCB00004F592 /* NSControl+BINExtensions.m in Sources */,
+				488C27C017A1DCB00004F592 /* NSView+BINExtensions.m in Sources */,
+				488C27A017A1DCB00004F592 /* NSGradient+BINExtensions.m in Sources */,
+				488C27B017A1DCB00004F592 /* NSString+BINExtensions.m in Sources */,
+				488C27A817A1DCB00004F592 /* NSObject+BINExtensions.m in Sources */,
+				488C27B617A1DCB00004F592 /* NSTextField+BINExtensions.m in Sources */,
+				488C278717A1DCB00004F592 /* BINInspectorBar.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		488C273D17A1DC430004F592 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		488C273E17A1DC430004F592 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		488C274017A1DC430004F592 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "Mocha/Mocha-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		488C274117A1DC430004F592 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "Mocha/Mocha-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		488C271117A1DC430004F592 /* Build configuration list for PBXProject "Mocha" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				488C273D17A1DC430004F592 /* Debug */,
+				488C273E17A1DC430004F592 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		488C273F17A1DC430004F592 /* Build configuration list for PBXNativeTarget "Mocha" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				488C274017A1DC430004F592 /* Debug */,
+				488C274117A1DC430004F592 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 488C270E17A1DC430004F592 /* Project object */;
+}
