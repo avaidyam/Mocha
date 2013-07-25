@@ -81,12 +81,10 @@
 
 /* Begin PBXFileReference section */
 		488C271717A1DC430004F592 /* Mocha.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mocha.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		488C271A17A1DC430004F592 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		488C271D17A1DC430004F592 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		488C271E17A1DC430004F592 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		488C271F17A1DC430004F592 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		488C272217A1DC430004F592 /* Mocha-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mocha-Info.plist"; sourceTree = "<group>"; };
-		488C272F17A1DC430004F592 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		488C274517A1DCB00004F592 /* BINAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BINAnimation.h; sourceTree = "<group>"; };
 		488C274617A1DCB00004F592 /* BINAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BINAnimation.m; sourceTree = "<group>"; };
 		488C274717A1DCB00004F592 /* BINInspectorBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BINInspectorBar.h; sourceTree = "<group>"; };
@@ -191,22 +189,12 @@
 		488C271917A1DC430004F592 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				488C271D17A1DC430004F592 /* Foundation.framework */,
+				488C271F17A1DC430004F592 /* AppKit.framework */,
 				48F0F38317A1E29900671DF9 /* QuartzCore.framework */,
-				488C271A17A1DC430004F592 /* Cocoa.framework */,
-				488C272F17A1DC430004F592 /* XCTest.framework */,
-				488C271C17A1DC430004F592 /* Other Frameworks */,
+				488C271E17A1DC430004F592 /* CoreData.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		488C271C17A1DC430004F592 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				488C271D17A1DC430004F592 /* Foundation.framework */,
-				488C271E17A1DC430004F592 /* CoreData.framework */,
-				488C271F17A1DC430004F592 /* AppKit.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		488C272017A1DC430004F592 /* Mocha */ = {
